@@ -14,7 +14,7 @@ using namespace std;
 double f(string rpn, double x, double y){
 vector<double> ops;
 int pos = 0;
-cout << rpn << endl;
+cout << rpn<< ' '<<x<<' '<<y<< endl;
 do{
 try{
 ops.push_back(stod(rpn.substr(pos, rpn.find(" ", pos))));
@@ -268,9 +268,9 @@ ops.push_back(C);
 break;}
 }
 }
-cout << ops.back() << ' ';
+/*cout << ops.back() << ' ';
 if (ops.size() > 1) cout << ops[ops.size()-2];
-cout << endl;
+cout << endl;*/
 pos = rpn.find(" ", pos) + 1;
 //cout << pos << ' '<< rpn.find(" ", pos) << endl;
 }while(abs(rpn.find(" ", pos)) < rpn.size());
@@ -280,8 +280,8 @@ return ops.back();
 void transform(string* rpn, double xmin, double xmax, double ymin, double ymax){
 char* xtrans = (char*) malloc(64);
 char* ytrans = (char*) malloc(64);
-sprintf(xtrans, " %f - %f /", xmax/2+xmin/2, xmax/2-xmin/2);
-sprintf(ytrans, " %f - %f /", ymax/2+ymin/2, xmax/2-xmin/2);
+sprintf(xtrans, " %f - %f *", xmax/2+xmin/2, xmax/2-xmin/2);
+sprintf(ytrans, " %f - %f *", ymax/2+ymin/2, ymax/2-ymin/2);
 for (int i = 0 ; i < (*rpn).size() ; ++i){
 if ((*rpn)[i] == 'x'){
 (*rpn).insert(i+1, xtrans);
@@ -295,11 +295,11 @@ else if ((*rpn)[i] == 'y')
 vector<double> getfield(string rpn, double xmin, double xmax, double ymin, double ymax, int xs, int ys){
 vector<double> slopes;
 transform(&rpn, xmin, xmax, ymin, ymax);
-double delx = 2/(xs+1);
-double dely = 2/(ys+1);
+double delx = 2.0/(xs+1);
+double dely = 2.0/(ys+1);
 for (int x = 1 ; x <= xs ; ++x){
 for (int y = 1 ; y <= ys ; ++y){
-slopes.push_back(f(rpn, -1 + x*delx, -1 + y*dely));
+slopes.push_back(f(rpn, -1.0 + x*delx, -1.0 + y*dely));
 }
 }
 return slopes;
@@ -325,7 +325,7 @@ return points;
 }
 
 int main(){
-vector<double> slopes = getfield("x 1 - y + ", -1, 1, -1, 1, 1, 1);
+vector<double> slopes = getfield("x y + ", -2, 2, -2, 2, 3, 3);
 while (slopes.size() > 0){
 cout << slopes.back() << endl;
 slopes.pop_back();
