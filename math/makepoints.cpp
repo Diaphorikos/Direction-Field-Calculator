@@ -305,29 +305,44 @@ slopes.push_back(f(rpn, -1.0 + x*delx, -1.0 + y*dely));
 return slopes;
 }
 
-vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, double ymin, double ymax, double initx, double inity, double samples){
+vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, double ymin, double ymax, double initx, double inity, int samples, double len){
 vector<pair<double,double>> points;
-int rsamples = (int)((samples-1)*((xmax-initx)/(xmax-xmin))+0.5);
-int lsamples = samples - rsamples - 1;
-double delx = (xmax-xmin)/samples;
+
+double del = len/samples;
+
+//transformations
+transform(&rpn, xmin, xmax, ymin, ymax);
+initx = (initx-xmax/2-xmin/2)/(xmax/2-xmin/2);
+inity = (inity-ymax/2-ymin/2)/(ymax/2-ymin/2);
+
 double slope = f(rpn, initx, inity);
-points.push_back(make_pair(initx-delx/2, inity-slope*delx/2));
-points.push_back(make_pair(initx+delx/2, inity+slope*delx/2));
-for (int i = 0 ; i < rsamples ; ++i){
-slope = f(rpn, points.back().first, points.back().second);
-points.push_back(make_pair(points.back().first+delx, points.back().second+slope*delx));
+double dx = sqrt(del/(1+pow(slope,2)));
+if (samples % 2){
+points.push_back(make_pair(initx-dx, inity-slope*dx));
+points.push_back(make_pair(initx+dx, inity+slope*dx));
+samples--;
+} else{
+points.push_back(make_pair(initx, inity));
 }
-for (int i = 0 ; i < lsamples ; --i){
+for (int i = 0 ; i < samples/2 ; ++i){
+slope = f(rpn, points.back().first, points.back().second);
+dx = sqrt(del/(1+pow(slope,2)));
+points.push_back(make_pair(points.back().first+dx,points.back().second+slope*dx));
+}
+for (int i = 0 ; i < samples/2 ; ++i){
 slope = f(rpn, points.front().first, points.front().second);
-points.insert(points.begin(), make_pair(points.front().first-delx, points.front().second-slope*delx));
+dx = sqrt(del/(1+pow(slope,2)));
+points.insert(points.begin(), make_pair(points.front().first-dx,points.front().second-slope*dx));
 }
 return points;
 }
 
+/*
+//For testing purposes only
 int main(){
 vector<double> slopes = getfield("x y + ", -2, 2, -2, 2, 3, 3);
 while (slopes.size() > 0){
 cout << slopes.back() << endl;
 slopes.pop_back();
 }
-}
+}*/
