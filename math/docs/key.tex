@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage{setspace}
+
+\usepackage{amsmath}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arccsc}{arccsc}
+\DeclareMathOperator{\arcsech}{arcsech}
+\DeclareMathOperator{\arccoth}{arccoth}
+\DeclareMathOperator{\arccsch}{arccsch}
+\DeclareMathOperator{\arcsinh}{arcsech}
+\DeclareMathOperator{\arccosh}{arccoth}
+\DeclareMathOperator{\arctanh}{arccsch}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+
+
+\begin{document}
+\doublespacing
+\section{RPN Encoding}
+\subsection{Nice Functions}
+\begin{tabular}{lll}
+$x$ $y$ $+$ = $x + y$ & $x$ $y$ $-$ $=$ $x - y$ & $x$ $y$ $*$ $=$ $x \times y$\\
+$x$ $y$ $/$ $=$ $\frac{x}{y}$&$x$ $y$ \^{} $=$ $x^y$&\\
+$x$ $y$ b $=$ $\log_y{x}$&$x$ l $=$ $\ln(x)$& $x$ a $=$ $|x|$\\
+\end{tabular}
+\subsection{Trig Functions}
+\begin{tabular}{lll}
+$x$ s $=$ $\sin(x)$&$x$ c $=$ $\cos(x)$& $x$ t $=$ $\tan(x)$\\
+$x$ u $=$ $\arcsin(x)$&$x$ v $=$ $\arccos(x)$& $x$ w $=$ $\arctan(x)$\\
+$x$ p $=$ $\sec(x)$&$x$ q $=$ $\csc(x)$& $x$ r $=$ $\cot(x)$\\
+$x$ d $=$ $\arcsec(x)$&$x$ e $=$ $\arccsc(x)$& $x$ f $=$ $\arccot(x)$\\
+$x$ h $=$ $\sinh(x)$&$x$ i $=$ $\cosh(x)$& $x$ j $=$ $\tanh(x)$\\
+$x$ m $=$ $\arcsinh(x)$&$x$ n $=$ $\arccosh(x)$& $x$ o $=$ $\arctanh(x)$\\
+$x$ g $=$ $\sech(x)$&$x$ k $=$ $\csch(x)$& $x$ z $=$ $\coth(x)$\\
+$x$ A $=$ $\arcsec(x)$&$x$ B $=$ $\arccsc(x)$& $x$ C $=$ $\arccot(x)$\\
+\end{tabular}
+\section{Requirements}{
+\begin{itemize}
+\item{The RPN expression must have every argument separated by one space.}
+\item{The RPN expression must have a trailing space.}
+\end{itemize}
+}
+\end{document}
