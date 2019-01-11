@@ -333,9 +333,13 @@ samples--;
 } else{
 points.push_back(make_pair(initx, inity));
 }
+
+int cancer = 0;
+
+flag:
 for (int i = 0 ; i < samples/2 ; ++i){
 slope = f(rpn, points.back().first, points.back().second);
-if(isnan(slope)) break;
+if(isnan(slope)){ break; samples += samples - 2*i;}
 if(isinf(slope)){
 int coeff = slope>0?1:-1;
 points.push_back(make_pair(points.back().first, points.back().second+del*coeff/(ymax-ymin)));
@@ -343,9 +347,11 @@ points.push_back(make_pair(points.back().first, points.back().second+del*coeff/(
 else{dx = del/sqrt(1+pow(slope,2));
 points.push_back(make_pair(points.back().first+dx/(xmax-xmin),points.back().second+slope*dx/(ymax-ymin)));}
 }
+
+if (!cancer)
 for (int i = 0 ; i < samples/2 ; ++i){
 slope = f(rpn, points.front().first, points.front().second);
-if(isnan(slope)) break;
+if(isnan(slope)){cancer = 1; samples -= 2*i;  goto flag;}
 if(isinf(slope)){
 int coeff = slope>0?1:-1;
 points.push_back(make_pair(points.front().first, points.front().second+del*coeff/(ymax-ymin)));
@@ -360,13 +366,13 @@ return points;
 
 //For testing purposes only
 /*int main(){
-vector<pair<double,double>> slopes = getcurve("1 x 0.66666667 ^ / ", -2, 2, -1, 1, 2, 1, 10, 30);
+vector<pair<double,double>> slopes = getcurve("0 ", -10, 10, -1, 1, 0, 0.5, 20, 40);
 while (slopes.size() > 0){
 cout << slopes.back().first << ' ' << slopes.back().second << endl;
 slopes.pop_back();
 }
 cout << endl;
-vector<double> notslopes = getfield("-1 x / ", -10, 10, -10, 10, 1, 0);
+vector<double> notslopes = getfield("0 ", -10, 10, -1, 1, 1, 0);
 while (notslopes.size()){
 cout << notslopes.back() << ' ';
 notslopes.pop_back();
