@@ -26,27 +26,27 @@ Upon calling \lstinline{makepoints}, print a number 0 or 1 to \lstinline{cin}. 0
 To generate a slope field, enter the following arguments in this order:
 
 \begin{verbatim}
-rpn #a string containing a postfix mathematical expression, according to the definition below
+string rpn #a string containing a postfix mathematical expression, according to the definition below
 #the next four variables define the section of the Cartesian Plane with a slope field in it
-xmin
-xmax
-ymin
-ymax
-xs #the number of columns in the slope field
-ys #the number of rows in the slope field
+double xmin
+double xmax
+double ymin
+double ymax
+int xs #the number of columns in the slope field
+int ys #the number of rows in the slope field
 \end{verbatim}
 
 And to generate a curve:
 \begin{verbatim}
-rpn
-xmin
-xmax
-ymin
-ymax
-initx #the x-coordinate of the initial condition
-inity #the y-coordinate of the initial condition
-samples #the number of line segments making up the curve
-len #the length of the desired curve
+string rpn
+double xmin
+double xmax
+double ymin
+double ymax
+double initx #the x-coordinate of the initial condition
+double inity #the y-coordinate of the initial condition
+double samples #the number of line segments making up the curve
+double len #the length of the desired curve
 \end{verbatim}
 \subsection{Output}
 All input is printed to \lstinline{cout}.
