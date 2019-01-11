@@ -6,6 +6,7 @@
 #include<stdexcept>
 #include<iostream>
 #include<stdio.h>
+#include<limits>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ using namespace std;
 double f(string rpn, double x, double y){
 vector<double> ops;
 int pos = 0;
-cout << rpn<< ' '<<x<<' '<<y<< endl;
+//cout << rpn<< ' '<<x<<' '<<y<< endl;
 do{
 try{
 ops.push_back(stod(rpn.substr(pos, rpn.find(" ", pos))));
@@ -280,8 +281,8 @@ return ops.back();
 void transform(string* rpn, double xmin, double xmax, double ymin, double ymax){
 char* xtrans = (char*) malloc(64);
 char* ytrans = (char*) malloc(64);
-sprintf(xtrans, " %f - %f *", xmax/2+xmin/2, xmax/2-xmin/2);
-sprintf(ytrans, " %f - %f *", ymax/2+ymin/2, ymax/2-ymin/2);
+sprintf(xtrans, " %f * %f +", xmax/2-xmin/2, xmax/2+xmin/2);
+sprintf(ytrans, " %f * %f +", ymax/2-ymin/2, ymax/2+ymin/2);
 for (int i = 0 ; i < (*rpn).size() ; ++i){
 if ((*rpn)[i] == 'x'){
 (*rpn).insert(i+1, xtrans);
@@ -308,7 +309,7 @@ return slopes;
 vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, double ymin, double ymax, double initx, double inity, int samples, double len){
 vector<pair<double,double>> points;
 
-double del = len/samples;
+double del = len/(samples);
 
 //transformations
 transform(&rpn, xmin, xmax, ymin, ymax);
@@ -316,33 +317,59 @@ initx = (initx-xmax/2-xmin/2)/(xmax/2-xmin/2);
 inity = (inity-ymax/2-ymin/2)/(ymax/2-ymin/2);
 
 double slope = f(rpn, initx, inity);
-double dx = sqrt(del/(1+pow(slope,2)));
+if (isnan(slope)) return points;
+double dx = del/sqrt(1+pow(slope,2));
 if (samples % 2){
-points.push_back(make_pair(initx-dx, inity-slope*dx));
-points.push_back(make_pair(initx+dx, inity+slope*dx));
+if(isinf(slope)){
+int coeff = slope>0?1:-1;
+points.push_back(make_pair(initx, inity-del*coeff/(ymax-ymin)));
+points.push_back(make_pair(initx, inity+del*coeff/(ymax-ymin)));
+}
+else{
+points.push_back(make_pair(initx-dx/(xmax-xmin), inity-slope*dx/(ymax-ymin)));
+points.push_back(make_pair(initx+dx/(xmax-xmin), inity+slope*dx/(ymax-ymin)));
+}
 samples--;
 } else{
 points.push_back(make_pair(initx, inity));
 }
 for (int i = 0 ; i < samples/2 ; ++i){
 slope = f(rpn, points.back().first, points.back().second);
-dx = sqrt(del/(1+pow(slope,2)));
-points.push_back(make_pair(points.back().first+dx,points.back().second+slope*dx));
+if(isnan(slope)) break;
+if(isinf(slope)){
+int coeff = slope>0?1:-1;
+points.push_back(make_pair(points.back().first, points.back().second+del*coeff/(ymax-ymin)));
+}
+else{dx = del/sqrt(1+pow(slope,2));
+points.push_back(make_pair(points.back().first+dx/(xmax-xmin),points.back().second+slope*dx/(ymax-ymin)));}
 }
 for (int i = 0 ; i < samples/2 ; ++i){
 slope = f(rpn, points.front().first, points.front().second);
-dx = sqrt(del/(1+pow(slope,2)));
-points.insert(points.begin(), make_pair(points.front().first-dx,points.front().second-slope*dx));
+if(isnan(slope)) break;
+if(isinf(slope)){
+int coeff = slope>0?1:-1;
+points.push_back(make_pair(points.front().first, points.front().second+del*coeff/(ymax-ymin)));
+} else{
+dx = del/sqrt(1+pow(slope,2));
+points.insert(points.begin(), make_pair(points.front().first-dx/(xmax-xmin),points.front().second-slope*dx/(ymax-ymin)));
+}
 }
 return points;
 }
 
-/*
+
 //For testing purposes only
-int main(){
-vector<double> slopes = getfield("x y + ", -2, 2, -2, 2, 3, 3);
+/*int main(){
+vector<pair<double,double>> slopes = getcurve("1 x 0.66666667 ^ / ", -2, 2, -1, 1, 2, 1, 10, 30);
 while (slopes.size() > 0){
-cout << slopes.back() << endl;
+cout << slopes.back().first << ' ' << slopes.back().second << endl;
 slopes.pop_back();
 }
+cout << endl;
+vector<double> notslopes = getfield("-1 x / ", -10, 10, -10, 10, 1, 0);
+while (notslopes.size()){
+cout << notslopes.back() << ' ';
+notslopes.pop_back();
+}
+cout << endl;
 }*/
