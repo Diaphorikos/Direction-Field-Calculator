@@ -2,6 +2,12 @@ body{
 	font: 20px Comic Sans MS;
 }
 
+#nav{
+	width: 100%;
+	position: relative;
+	background-color: gray;
+}
+
 #main{
 	width: 100%;
 	position: relative;
@@ -24,4 +30,16 @@ body{
 
 #input{
 	background-color: white;
+}
+
+h1, h2 {
+ font-family: 'Allerta', Helvetica, Arial, sans-serif;
+ font-size: 50px;
+ line-height: 55px;
+}
+ 
+p {
+ font-family: 'Crimson Text', Georgia, Times, serif;
+ font-size: 16px;
+ line-height: 25px;
 }
