@@ -10,8 +10,8 @@
 
 using namespace std;
 
-/* This function evaluates a reverse-polish notation string with variables x and y. Operations are defined in docs/key.pdf.
- * It uses the shunt-in algorithm for evaluating a postfix expression, as laid out by Donald Knuth.*/
+
+/*Reads and interprets a postfix expression by pushing operators onto the stack and then applying operators to the numbers on the back, before pushing the results back.*/
 double f(string rpn, double x, double y) {
 	vector<double> ops;
 	int pos = 0;
@@ -20,7 +20,7 @@ double f(string rpn, double x, double y) {
 		try {
 			ops.push_back(stod(rpn.substr(pos, rpn.find(" ", pos))));
 			//cout << ops.back() << endl;
-		} catch (const invalid_argument& e) {
+		} catch (const invalid_argument& e) { //if there was no number, it must have been some other operator, defined in docs/key.pdf
 			//cout << rpn[pos] << endl;
 			switch (rpn[pos]) {
 
@@ -272,12 +272,13 @@ double f(string rpn, double x, double y) {
 		/*cout << ops.back() << ' ';
 		if (ops.size() > 1) cout << ops[ops.size()-2];
 		cout << endl;*/
-		pos = rpn.find(" ", pos) + 1;
+		pos = rpn.find(" ", pos) + 1; //Jumps to the next space
 		//cout << pos << ' '<< rpn.find(" ", pos) << endl;
-	} while (abs(rpn.find(" ", pos)) < rpn.size());
+	} while (abs(rpn.find(" ", pos)) < rpn.size()); //ends when no spaces (i.e. no operators/terms) left
 	return ops.back();
 }
 
+//This function transforms an equation to compensate for the transformation to a (-1,-1) -- (1,1) segment on the Cartesian plane.
 void transform(string* rpn, double xmin, double xmax, double ymin, double ymax) {
 	char* xtrans = (char*)malloc(64);
 	char* ytrans = (char*)malloc(64);
@@ -305,6 +306,7 @@ vector<double> getfield(string rpn, double xmin, double xmax, double ymin, doubl
 	return slopes;
 }
 
+/*This functions takes in a range, an initial point, a number of samples, and a curve length, and generates a set of points relative to the orientation of the screen, between -0.5:0.5 in the x and y directions.*/
 vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, double ymin, double ymax, double initx, double inity, int samples, double len) {
 	vector<pair<double, double>> points;
 
@@ -318,7 +320,9 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	double slope = f(rpn, initx, inity);
 	if (isnan(slope)) return points;
 	double dx = del / sqrt(1 + pow(slope, 2));
+	//generates line segment bisected by (initx, inity)
 	if (samples % 2) {
+		//if the slope is vertical, go up or down
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
 			points.push_back(make_pair(initx, inity - del * coeff / (ymax - ymin)));
@@ -332,12 +336,16 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 		points.push_back(make_pair(initx, inity));
 	}
 
+	//This is just a flag variable
 	int cancer = 0;
 
 	flag:
+	//Left-to-Right (x increasing)
 	for (int i = 0; i < samples / 2; ++i) {
+		//uses slope of previous generated point
 		slope = f(rpn, points.back().first, points.back().second);
-		if (isnan(slope)){samples += samples-i*2 break;}
+		if (isnan(slope)){samples += samples-i*2; break;} //If it can't continue because of a nan, it adds to the number of samples so that more will be put down in the next loop
+		//if slope infinite, go up or down
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
 			points.push_back(make_pair(points.back().first, points.back().second + del * coeff / (ymax - ymin)));
@@ -347,9 +355,12 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 		}
 	}
 	
+	//Right-to-Left (x decreasing)
 	if (!cancer)
 	for (int i = 0; i < samples / 2; ++i) {
+		//uses slope of previous generated point
 		slope = f(rpn, points.front().first, points.front().second);
+		//if it must stop because of a nan, it returns to the first loop to compensate
 		if (isnan(slope)){cancer = 1; samples -= i*2 ; goto flag;}
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
@@ -365,7 +376,7 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 
 //For testing purposes only
 /*int main(){
-vector<pair<double,double>> slopes = getcurve("1 x 0.66666667 ^ / ", -2, 2, -1, 1, 2, 1, 10, 30);
+vector<pair<double,double>> slopes = getcurve("0 ", -1, 1, -1, 1, 0, 0, 1, 2);
 while (slopes.size() > 0){
 cout << slopes.back().first << ' ' << slopes.back().second << endl;
 slopes.pop_back();
