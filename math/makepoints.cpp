@@ -373,19 +373,36 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	return points;
 }
 
-
-//For testing purposes only
-/*int main(){
-vector<pair<double,double>> slopes = getcurve("0 ", -1, 1, -1, 1, 0, 0, 1, 2);
+int main(){
+int option;
+cin >> option;
+getchar();
+//Field
+if (option == 0){
+string rpn;
+double xmin, xmax, ymin, ymax;
+int xs, ys;
+getline(cin,rpn);
+scanf("%f %f %f %f %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
+vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
 while (slopes.size() > 0){
-cout << slopes.back().first << ' ' << slopes.back().second << endl;
-slopes.pop_back();
+cout << slopes.front() << endl;
+slopes.erase(slopes.begin());
 }
-cout << endl;
-vector<double> notslopes = getfield("-1 x / ", -10, 10, -10, 10, 1, 0);
-while (notslopes.size()){
-cout << notslopes.back() << ' ';
-notslopes.pop_back();
 }
-cout << endl;
-}*/
+//Curve
+else if (option == 1){
+string rpn;
+getline(cin, rpn);
+double xmin, xmax, ymin, ymax, initx, inity, len;
+int samples;
+scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
+cout << rpn << ' ';
+vector<pair<double,double>> points = getcurve(rpn, xmin, xmax, ymin, ymax, initx, inity, samples, len);
+while (points.size() > 0){
+cout << points.front().first << ' ' << points.front().second << endl;
+points.erase(points.begin());
+}
+}
+else throw new invalid_argument("not an option");
+}
