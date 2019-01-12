@@ -397,7 +397,6 @@ getline(cin, rpn);
 double xmin, xmax, ymin, ymax, initx, inity, len;
 int samples;
 scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
-cout << rpn << ' ';
 vector<pair<double,double>> points = getcurve(rpn, xmin, xmax, ymin, ymax, initx, inity, samples, len);
 while (points.size() > 0){
 cout << points.front().first << ' ' << points.front().second << endl;
