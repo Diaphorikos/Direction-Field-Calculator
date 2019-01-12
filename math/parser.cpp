@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//Removes all instances of "of" from "in"
 void removeFromInput(string* in, string of) {
 	unsigned temp;
 	while (true) {
@@ -16,6 +17,7 @@ void removeFromInput(string* in, string of) {
 	}
 }
 
+//Replaces all instances of "find" with "replace" in "in"
 void replaceInInput (string* in, string find, string replace) {
 	int temp;
 	while (true) {
@@ -27,6 +29,7 @@ void replaceInInput (string* in, string find, string replace) {
 	}
 }
 
+//Replaces all instances of "\left|~content~\right|" with "a(~content~)"
 void fixAbsoluteValue(string* in) {
 	int posLeft, posRight;
 	while(true) {
@@ -34,11 +37,12 @@ void fixAbsoluteValue(string* in) {
 		if (posRight == string::npos) {
 			break;
 		}
-		posLeft = in->substr(0, posRight).find_last_of("\\left|")-5;
+		posLeft = in->substr(0, posRight).find_last_of("\\left|")-5;//Finds the first occurence of "\left|" to the right of posRight
 		*in = in->substr(0, posLeft) + "a(" + in->substr(posLeft + 6, posRight - (posLeft + 6)) + ")" + in->substr(posRight + 7);
 	}
 }
 
+//Replaces all instances of "^{~content~}" with "^(~content~)"
 void fixPower(string* in) {
 	int open, close;
 	int numOpen, numClosed;
@@ -49,7 +53,7 @@ void fixPower(string* in) {
 		}
 		numOpen = 1;
 		numClosed = 0;
-		for(int i = open+2;; i++) {
+		for(int i = open+2;; i++) { //finds the closing bracket that matches the previously found open bracket
 			if ((*in)[i]=='{') {
 				numOpen++;
 			}else if ((*in)[i] == '}') {
@@ -64,19 +68,20 @@ void fixPower(string* in) {
 	}
 }
 
+//Replaces all instances of "\frac{~content1~}{~content2~}" with "((~content1~)/(~content2~))"
 void fixFrac(string* in) {
 	int numClosed=-1;
 	int start, middle;
-	for (int i = 0;numClosed!=-1||i+6<in->length();i++) {
-		if(in->substr(i,6)=="\\frac{") {
+	for (int i = 0;numClosed!=-1||i+6<in->length();i++) { //Extremely time consuming, can be improved
+		if(in->substr(i,6)=="\\frac{") {//Resets serach if new frac encountered
 			numClosed = 0;
 			start = i;
 			i += 5;
 		} else if (numClosed!=-1&&(*in)[i] == '}') {
 			numClosed++;
-			if (numClosed==1) {
+			if (numClosed==1) {//First closing bracket found
 				middle = i;
-			}else if (numClosed==2) {
+			}else if (numClosed==2) {//Complete fration found
 				*in = in->substr(0, start) + "((" + in->substr(start + 6, middle - (start + 6)) + ")/(" + in->substr(middle + 2, i - (middle + 2)) + "))" + in->substr(i + 1);
 				i = -1;
 				numClosed = -1;
@@ -85,6 +90,7 @@ void fixFrac(string* in) {
 	}
 }
 
+//Replaces all instances of "~#~x" with "~#~*x" and all instances of "~#~y" with "~#~*y"
 void fixCoefficients (string* in) {
 	for (int i = 1; i<in->length(); i++) {
 		if((*in)[i] == 'x' || (*in)[i] == 'y') {
@@ -96,7 +102,9 @@ void fixCoefficients (string* in) {
 	}
 }
 
+//Converts LaTeX input into infix notation
 void inputSanitization(string* in) {
+	//replacements contains operators ONLY if they do not use braces {}. Otherwise, a separate function needs to be made.
 	string replacements[][2] = {{"*", "\\cdot"},{"l", "\\ln"}, {"s","\\sin"},{"c","\\cos"},{"t","\\tan"},
 		{"u","\\arcsin"},{"v","\\arccos"},{"w","\\arctan"},{"p","\\sec"},{"q","\\csc"},{"r","\\cot"},
 		{"d","\\arcsec"},{"e","\\arccsc"},{"f","\\arccot"},{"h","\\sinh"},{"i","\\cosh"},{"j","\\tanh"},{"m","\\arcsinh"},
@@ -111,18 +119,24 @@ void inputSanitization(string* in) {
 	for (auto& arr : replacements) {
 		replaceInInput(in, arr[1], arr[0]);
 	}
-	//cleanOfFunctions(in); Needs to be fixed, and replaced with fix frac and fix power
 }
 
-bool isLetter(char check) {
-	return (check >= 'A' && check <= 'Z') || (check >= 'a' && check <= 'z');
+//Checks that a given symbol is a letter
+bool isLetter(char check) {//This is used curently because all functions use letters as operators. Should be replaced with a map or set of operators, to check that it is actually an opperator.
+	return (check >= 'A' && check <= 'Z') || (check >= 'a' && check <= 'z'); 
 }
 
+//Checks that a given symbol is a bracket ()
 bool isBracket(char check) {
 	return check == '(' || check == ')';
 }
+ //Checks if the last character of "in" is a space
+bool isLastCharSpace(const string in) {
+	return !(in.length() > 0 && in[in.length() - 1] != ' ');
+}
 
-int compareOperator(char opCur, char opTop) { //return 1 if opCur greater, 0 if equal, -1 if less
+//Used to compare precedence of operators
+int compareOperator(char opCur, char opTop) { //return 1 if opCur greater, 0 if equal, -1 if less.
 	if (isLetter(opCur)) {
 		if (isLetter(opTop))
 			return 0;
@@ -147,19 +161,22 @@ int compareOperator(char opCur, char opTop) { //return 1 if opCur greater, 0 if 
 			return 0;
 		else
 			return -1;
-	}
+	} 
+	//This method relies on some properties of order of operations, and is difficult to maintain if more features are added.
+	//A possible alternative is to simply have a getPrecedence function, and use that to compare operators.
 }
 
-void reversePolish(string* in, string* out) {
-	stack<char> st;
-	for(auto& c : *in) {
-		if(c=='x' || c=='y' || (c >= '0' && c<='9')) {
+//Converts infix to postfix (reverse polish)
+void reversePolish(const string in, string* out) {
+	stack<char> st; //Stack of operators
+	for(auto& c : in) {
+		if(c=='x' || c=='y' || (c >= '0' && c<='9')) { //Is not an operator or bracket
 			*out += c;
 		} else if (isBracket(c)) {
 			if (c == '(')
 				st.push(c);
-			else {
-				if (out->length() > 0 && (*out)[out->length() - 1] != ' ')
+			else { //when a ) is encountered, pop stack until (
+				if (!isLastCharSpace(*out))
 					*out += ' ';
 				while(!isBracket(st.top())) {
 					*out += st.top();
@@ -169,10 +186,10 @@ void reversePolish(string* in, string* out) {
 				st.pop();
 			}
 		} else {
-			if (out->length()>0 && (*out)[out->length() - 1] != ' ')
+			if (!isLastCharSpace(*out))
 				*out += ' ';
-			if (!st.empty()&&!isBracket(st.top())&& (compareOperator(c,st.top())<=0)) {
-				while (!st.empty() && !isBracket(st.top()) && (compareOperator(c,st.top())<=0)) {
+			if (!st.empty()&&!isBracket(st.top())&& (compareOperator(c,st.top())<=0)) {//If stack is not empty, top is not bracket, and opertator is not greater
+				while (!st.empty() && !isBracket(st.top()) && (compareOperator(c,st.top())<=0)) {//Pop stack until first operator that is greater
 					*out += st.top();
 					*out += ' ';
 					st.pop();
@@ -181,9 +198,9 @@ void reversePolish(string* in, string* out) {
 			st.push(c);
 		}
 	}
-	if (out->length() > 0 && (*out)[out->length() - 1] != ' ')
+	if (!isLastCharSpace(*out))
 		*out += ' ';
-	while(!st.empty()) {
+	while(!st.empty()) {//Pop the rest of the stack
 		*out += st.top();
 		*out += ' ';
 		st.pop();
@@ -191,11 +208,13 @@ void reversePolish(string* in, string* out) {
 }
 
 int main() {
+	//Input
 	auto* in= new string();
 	auto* out = new string();
 	getline(cin, *in);
+	//Processing
 	inputSanitization(in);
-	cout << *in << '\n';
-	reversePolish(in, out);
+	reversePolish(*in, out);
+	//Output
 	cout << *out;
 }
