@@ -19,43 +19,54 @@
 		<!--<div id="nav">
 			<h1>This is a navbar</h1>
 		</div>-->
-		
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">
-						<img alt="Brand" src="../site/favicon.png">
-					</a>
+		<div id="main">
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#">
+							<img alt="Brand" src="../site/favicon.png">
+						</a>
+					</div>
+					
+					<div id="navbar" class="collapse navbar-collapse">
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="index.html"><h1>Home</h1></a></li>
+							<li><a href="graph.html"><h1>Graph</h1></a></li>
+							<li><a href="about.html"><h1>About</h1></a></li>
+						</ul>
+					</div>
 				</div>
-				
-				<div id="navbar" class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-					    <li class="active"><a href="index.html"><h1>Home</h1></a></li>
-						<li><a href="graph.html"><h1>Graph</h1></a></li>
-						<li><a href="about.html"><h1>About</h1></a></li>
+			</nav>
+			
+			<div class="container-fluid">
+				<div class="row">
+					<h1>Welcome to Diaphorikos!</h1>
+					<p>Graph first order differential equations with Diaphorikos!</p>
+				</div>
+				<div class="row">
+					<h2>What is Diaphorikos?</h2>
+					<p>Inspired by <a href="https://desmos.com">Desmos</a>, Diaphorikos is an attempt at elegantly displaying first order ordinary differential equations without too much hassle.</p>
+				</div>
+				<div class="row">
+					<h2>How to use Diaphorikos?</h2>
+					<p>Head over <a href="graph.html">here</a> to get started! Here is what is supported:</p>
+					<ul class="list-group">
+						<li class="list-group-item"><p-invert>Logarithms, other than the natural log: <span id="prompt">\ln</span> are not supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All elementary algebraic operations (+,-,*,/) are all supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All polynomial and exponential functions are supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All primary and reciprocal trigonometric functions are supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All inverse trigonometric functions are supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All hyperbolic and reciprocal functions are supported.</p-invert></li>
+						<li class="list-group-item"><p-invert>All inverse hyperbolic functions are supported.</p-invert></li>
 					</ul>
 				</div>
 			</div>
-		</nav>
-		
-		<div class="container-fluid">
-			<div class="row">
-				<h1>Welcome to Diaphorikos!</h1>
-				<p>Graph first order differential equations with Diaphorikos!</p>
-			</div>
-			<div class="row">
-				<h2>What is Diaphorikos?</h2>
-				<p>Inspired by <a href="https://desmos.com">Desmos</a>, Diaphorikos is an attempt at elegantly displaying first order ordinary differential equations without too much hassle.</p>
-			</div>
 		</div>
-		
-		
-		
 	</body>
 </html>
