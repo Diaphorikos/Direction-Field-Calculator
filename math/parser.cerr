@@ -1,0 +1,31 @@
+parser.cpp: In function ‘void removeFromInput(std::__cxx11::string*, std::__cxx11::string)’:
+parser.cpp:13:12: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (temp == string::npos) {
+       ~~~~~^~~~~~~~~
+parser.cpp: In function ‘void replaceInInput(std::__cxx11::string*, std::__cxx11::string, std::__cxx11::string)’:
+parser.cpp:25:12: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (temp == string::npos) {
+       ~~~~~^~~~~~~~~
+parser.cpp: In function ‘void fixAbsoluteValue(std::__cxx11::string*)’:
+parser.cpp:37:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (posRight == string::npos) {
+       ~~~~~~~~~^~~~~~~~~
+parser.cpp: In function ‘void fixPower(std::__cxx11::string*)’:
+parser.cpp:51:12: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (open == string::npos) {
+       ~~~~~^~~~~~~~~
+parser.cpp: In function ‘void fixFrac(std::__cxx11::string*)’:
+parser.cpp:75:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0;numClosed!=-1||i+6<in->length();i++) { //Extremely time consuming, can be improved
+                                ~~~^~~~~~~~~~~~~
+parser.cpp: In function ‘void fixCoefficients(std::__cxx11::string*)’:
+parser.cpp:95:19: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 1; i<in->length(); i++) {
+                  ~^~~~~~~~~~~~~
+parser.cpp: In function ‘void fixFrac(std::__cxx11::string*)’:
+parser.cpp:85:130: warning: ‘middle’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     *in = in->substr(0, start) + "((" + in->substr(start + 6, middle - (start + 6)) + ")/(" + in->substr(middle + 2, i - (middle + 2)) + "))" + in->substr(i + 1);
+                                                                                                                          ~~~~~~~~^~~~
+parser.cpp:85:79: warning: ‘start’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     *in = in->substr(0, start) + "((" + in->substr(start + 6, middle - (start + 6)) + ")/(" + in->substr(middle + 2, i - (middle + 2)) + "))" + in->substr(i + 1);
+                                                                        ~~~~~~~^~~~

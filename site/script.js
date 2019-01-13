@@ -1,20 +1,9 @@
 var inputField, c, maxx, maxy, points;
 
-function submit(){
-	var s = inputField.latex(), t = "";
-	for(var i = 0; i < s.length; i++)
-		if(s[i] != '\\') t += s[i];
-	
-	$.get("request.php",
-		{ type: "asdf", data : t },
-		function(data){ console.log(data); }
-	);
-}
-
-function drawSlope(length, slope, num, xc, yc){
+function drawSlope(length, slope, xc, yc){
 	c.drawLine({
 		strokeStyle: 'black',
-		strokeWidth: length/Math.sqrt(num),
+		strokeWidth: 1.2,
 		x1: -length/(2 * Math.sqrt(slope * slope + 1)) + xc,
 		x2: length/(2 * Math.sqrt(slope * slope + 1)) + xc,
 		y1: maxy - (-slope*length/(2 * Math.sqrt(slope * slope + 1)) + yc),
@@ -47,20 +36,26 @@ function draw(data){
 		fromCenter: false
 	});
 
-	var small = Math.min(maxx, maxy);
+	var adj = (maxx - maxy) / 2;
 
 	for(var i = 0; i < points; i++){
 		for(var j = 0; j < points; j++){
-			
+			if(slopes[i][j] == 'nan' || slopes[i][j] == '-nan' || slopes[i][j] == 'inf' || slopes[i][j] == '-inf')
+				slopes[i][j] = 9999;
+			drawSlope(maxy / (points + 3), slopes[i][j] * 1, adj + (j + 1)/(points + 1) * maxy, (i + 1)/(points + 1) * maxy);
 		}
 	}
+
+	console.log(maxx, maxy);
 }
 
-function getSlopes(){
+function getSlopes(data){
+	console.log(data);
+
 	var s = '0\n';
-	s += 'x y + \n';
-	s += '-10\n10\n-10\n10\n19\n19\n';
-	points = 19;
+	s += data + '\n';
+	s += '-2\n2\n-2\n2\n39\n39\n';
+	points = 39;
 
 	$.get('request.php',
 		{
@@ -68,6 +63,20 @@ function getSlopes(){
 			data: s
 		},
 		draw
+	);
+}
+
+function submit(){
+	var s = inputField.latex();
+	s = s.split('\\ ').join('');
+	console.log(s);
+	
+	$.get("request.php",
+		{
+			type: "parse",
+			data : s
+		},
+		getSlopes
 	);
 }
 

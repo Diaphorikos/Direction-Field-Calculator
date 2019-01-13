@@ -7,7 +7,7 @@ using namespace std;
 
 //Removes all instances of "of" from "in"
 void removeFromInput(string* in, string of) {
-	unsigned temp;
+	long long temp;
 	while (true) {
 		temp = in->find(of);
 		if (temp == string::npos) {
