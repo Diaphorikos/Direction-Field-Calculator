@@ -296,10 +296,11 @@ void transform(string* rpn, double xmin, double xmax, double ymin, double ymax) 
 vector<double> getfield(string rpn, double xmin, double xmax, double ymin, double ymax, int xs, int ys) {
 	vector<double> slopes;
 	transform(&rpn, xmin, xmax, ymin, ymax);
-	double delx = 2.0 / (xs + 1);
-	double dely = 2.0 / (ys + 1);
+	double delx = 2.0 / (xs+1);
+	double dely = 2.0 / (ys+1);
 	for (int x = 1; x <= xs; ++x) {
 		for (int y = 1; y <= ys; ++y) {
+			//cout << x*delx << ' ' <<y*dely << endl;
 			slopes.push_back(f(rpn, -1.0 + x * delx, -1.0 + y * dely));
 		}
 	}
@@ -318,8 +319,9 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	inity = (inity - ymax / 2 - ymin / 2) / (ymax / 2 - ymin / 2);
 
 	double slope = f(rpn, initx, inity);
-	if (isnan(slope)) return points;
-	double dx = del / sqrt(1 + pow(slope, 2));
+	if (isnan(slope)){ goto end;}
+	
+	{double dx = del / sqrt(1 + pow(slope, 2));
 	//generates line segment bisected by (initx, inity)
 	if (samples % 2) {
 		//if the slope is vertical, go up or down
@@ -369,7 +371,9 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 			dx = del / sqrt(1 + pow(slope, 2));
 			points.insert(points.begin(), make_pair(points.front().first - dx / (xmax - xmin), points.front().second - slope * dx / (ymax - ymin)));
 		}
-	}
+	}}
+	end:
+	points.push_back(make_pair(INFINITY, INFINITY));
 	return points;
 }
 
@@ -383,7 +387,7 @@ string rpn;
 double xmin, xmax, ymin, ymax;
 int xs, ys;
 getline(cin,rpn);
-scanf("%f %f %f %f %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
+scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
 vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
 while (slopes.size() > 0){
 cout << slopes.front() << endl;
