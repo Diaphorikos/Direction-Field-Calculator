@@ -11,22 +11,23 @@ body{
 
 #main{
 	width: 80%;
-	margin-left: auto ;
-	margin-right: auto ;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #sidebar{
-	width: 24%;
+	width: 26%;
+	height: calc(100vh - 120px);
 	position: absolute;
-	left: 10%;
+	left: 2%;
 	background-color: red;
 }
 
 #graph{
-	background-color: green;
 	position: absolute;
-	right: 10%;
-	width: 56%;
+	right: 2%;
+	width: 70%;
+	height: calc(100vh - 120px);
 }
 
 #input{
@@ -50,4 +51,8 @@ p-invert {
  font-size: 20px;
  line-height: 25px;
  color: black;
+}
+
+#main, #container-fluid{
+	width: 100% !important;
 }

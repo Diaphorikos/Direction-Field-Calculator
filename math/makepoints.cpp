@@ -378,34 +378,34 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 }
 
 int main(){
-int option;
-cin >> option;
-getchar();
-//Field
-if (option == 0){
-string rpn;
-double xmin, xmax, ymin, ymax;
-int xs, ys;
-getline(cin,rpn);
-scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
-vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
-while (slopes.size() > 0){
-cout << slopes.front() << endl;
-slopes.erase(slopes.begin());
-}
-}
-//Curve
-else if (option == 1){
-string rpn;
-getline(cin, rpn);
-double xmin, xmax, ymin, ymax, initx, inity, len;
-int samples;
-scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
-vector<pair<double,double>> points = getcurve(rpn, xmin, xmax, ymin, ymax, initx, inity, samples, len);
-while (points.size() > 0){
-cout << points.front().first << ' ' << points.front().second << endl;
-points.erase(points.begin());
-}
-}
-else throw new invalid_argument("not an option");
+	int option;
+	cin >> option;
+	getchar();
+	//Field
+	if (option == 0){
+		string rpn;
+		double xmin, xmax, ymin, ymax;
+		int xs, ys;
+		getline(cin,rpn);
+		scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
+		vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
+		while (slopes.size() > 0){
+			cout << slopes.front() << endl;
+			slopes.erase(slopes.begin());
+		}
+	}
+	//Curve
+	else if (option == 1){
+		string rpn;
+		getline(cin, rpn);
+		double xmin, xmax, ymin, ymax, initx, inity, len;
+		int samples;
+		scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
+		vector<pair<double,double>> points = getcurve(rpn, xmin, xmax, ymin, ymax, initx, inity, samples, len);
+		while (points.size() > 0){
+			cout << points.front().first << ' ' << points.front().second << endl;
+			points.erase(points.begin());
+		}
+	}
+	else throw new invalid_argument("not an option");
 }
