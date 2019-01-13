@@ -1,5 +1,4 @@
 body{
-	font: 20px Comic Sans MS;
 	padding-top: 110px;
 }
 
@@ -34,11 +33,11 @@ body{
 }
 
 h1, h2 {
- font-family: 'Allerta', Helvetica, Arial, sans-serif;
+ font-family: 'Allerta', serif;
 }
  
 p {
- font-family: 'Crimson Text', Georgia, Times, serif;
+ font-family: 'Crimson Text', sans-serif;
  font-size: 16px;
  line-height: 25px;
 }
