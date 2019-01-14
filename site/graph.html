@@ -29,7 +29,7 @@
 							<span class="icon-bar"></span>
 						</button>
 						<a class="navbar-brand" href="#">
-							<img alt="Brand" src="../site/favicon.png">
+							<div id="brand"><img alt="Brand" src="../site/favicon.png"></div>
 						</a>
 					</div>
 					
@@ -46,27 +46,38 @@
 			<div id="container-fluid">
 				<div id="sidebar">
 					<span id="prompt">\dfrac{dy}{dx} =</span>
-					<div id="input">
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="input-group">
+								<!--span id= "prompt" class="input-group-addon">\dfrac{dy}{dx} =</span-->
+								<input id="input" type="text" class="form-control" placeholder="Equation here...">
+								<span class="input-group-btn">
+									<button id="submit" class="btn btn-default" type="button">Go!</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!--div id="input">
 						
 					</div>
-					<button id="submit">
+					<button id="submit" type="button" class="btn btn-default" aria-label="Left Align">
 						<p-invert>Go!</p-invert>
-					</button>
+					</button-->
 					<div id="sliders">
 						<div>
-							Points:
+							<p-invert>Points:</p-invert>
 							<input type="range" id="points" min="2" max="50">
 							<span id="points-text"></span>
 						</div>
 
 						<div>
-							Window Size:
+							<p-invert>Window Size:</p-invert>
 							<input type="range" id="window" min="1" max="10">
 							<div id="window-text"></div>
 						</div>
 
 						<div>
-							Precision:
+							<p-invert>Precision:</p-invert>
 							<input type="range" id="samples" min="10" max="1000">
 							<div id="samples-text"></div>
 						</div>

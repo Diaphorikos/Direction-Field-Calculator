@@ -7,6 +7,10 @@ body{
 	background: url(../site/img/what-the-hex.png)repeat 0 0;
 }
 
+#brand{
+	margin-right: 18px;
+}
+
 #main{
 	width: 80%;
 	margin-left: auto;
@@ -17,7 +21,7 @@ body{
 	width: 26%;
 	height: calc(100vh - 120px);
 	position: absolute;
-	left: 2%;
+	left: 0%;
 	background-color: #FFB3B3;
 }
 
@@ -65,8 +69,4 @@ p-invert {
 	font-size: 20px;
 	line-height: 25px;
 	color: black;
-}
-
-#main, #container-fluid{
-	width: 100% !important;
 }
