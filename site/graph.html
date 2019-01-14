@@ -54,6 +54,25 @@
 					<button id="submit">
 						<p-invert>Go!</p-invert>
 					</button>
+					<div id="sliders">
+						<div>
+							Points:
+							<input type="range" id="points" min="2" max="50">
+							<span id="points-text"></span>
+						</div>
+
+						<div>
+							Window Size:
+							<input type="range" id="window" min="1" max="10">
+							<div id="window-text"></div>
+						</div>
+
+						<div>
+							Precision:
+							<input type="range" id="samples" min="10" max="1000">
+							<div id="samples-text"></div>
+						</div>
+					</div>
 				</div>
 				<div id="graph">
 					<canvas id="canvas"></canvas>

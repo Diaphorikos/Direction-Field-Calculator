@@ -1,4 +1,4 @@
-var inputField, c, maxx, maxy, maxw, points, samples;
+var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn;
 
 function drawSlope(length, slope, xc, yc){
 	c.drawLine({
@@ -11,19 +11,7 @@ function drawSlope(length, slope, xc, yc){
 	});
 }
 
-function draw(data){
-	var raw = data.split('\n');
-	var slopes = [];
-	for(var i = 0; i < points; i++){
-		var temp = [];
-		for(var j = 0; j < points; j++)
-			temp.push(raw[i * points + j]);
-		slopes.push(temp);
-	}
-	console.log(slopes);
-
-	/*
-
+function render(){
 	var canvas = document.getElementById('canvas');
 	var graph = document.getElementById('graph');
 	canvas.width = graph.clientWidth;
@@ -38,68 +26,16 @@ function draw(data){
 		fromCenter: false
 	});
 
-	*/
-
 	var adj = (maxx - maxy) / 2;
 
 	for(var i = 0; i < points; i++){
 		for(var j = 0; j < points; j++){
 			if(/*slopes[i][j] == 'nan' || slopes[i][j] == '-nan' ||*/ slopes[i][j] == 'inf' || slopes[i][j] == '-inf')
 				slopes[i][j] = 9999;
-			drawSlope(maxy / (points + 3), slopes[i][j] * 1, adj + (j + 1)/(points + 1) * maxy, (i + 1)/(points + 1) * maxy);
+			drawSlope(maxy / (points + 3), slopes[i][j] * 1, (i + 1)/(points + 1) * maxy + adj, (j + 1)/(points + 1) * maxy);
 		}
 	}
-
 	console.log(maxx, maxy);
-}
-
-function getSlopes(data){
-	console.log(data);
-
-	var s = '0\n';
-	s += data + '\n';
-	s += '-4\n4\n-4\n4\n40\n40\n';
-	maxw = 3;
-	points = 40;
-
-	$.get('request.php',
-		{
-			type: 'slope',
-			data: s
-		},
-		draw
-	);
-}
-
-function getPolish(){
-	var s = inputField.latex();
-	s = s.split('\\ ').join('');
-	console.log(s);
-	
-	$.get("request.php",
-		{
-			type: "parse",
-			data : s
-		},
-		getSlopes
-	);
-}
-
-function drawCurve(data){
-	var canvas = document.getElementById('canvas');
-	var graph = document.getElementById('graph');
-	canvas.width = graph.clientWidth;
-	canvas.height = graph.clientHeight;
-	maxx = canvas.width;
-	maxy = canvas.height;
-
-	var raw = data.split('\n');
-	var curve = [];
-
-	for(var i = 0; i < samples; i++){
-		var temp = raw[i].split(' ');
-		curve.push(temp);
-	}
 
 	var adj = (maxx - maxy)/2;
 
@@ -117,31 +53,94 @@ function drawCurve(data){
 			x2: (x2 + 1) / 2 * maxy + adj,
 			y2: maxy - ((y2 + 1) / 2 * maxy)
 		});
-
-//		console.log(
-//			(x1 / maxw + 1) / 2 * maxy,
-//			maxy - ((y1 / maxw + 1) / 2 * maxy),
-//			(x2 / maxw + 1) / 2 * maxy,
-//			maxy - ((y2 / maxw + 1) / 2 * maxy)
-//		);
 	}
 }
 
-function getCurve(){
-	samples = 1000;
-	var s = '1\n( 0 x - ) y / \n-4\n4\n-4\n4\n1\n-1\n1000\n200';
+function doSlope(data){
+	var raw = data.split('\n');
+	slopes = [];
+	for(var i = 0; i < points; i++){
+		var temp = [];
+		for(var j = 0; j < points; j++)
+			temp.push(raw[i * points + j]);
+		slopes.push(temp);
+	}
+	console.log(slopes);
+	render();
+}
+
+function getSlopes(data){
+	if(!points || !maxw) return;
+
+	eqn = data;
+	console.log(data);
+
+	var s = '0\n';
+	s += data + '\n';
+	s += '-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + points + '\n' + points + '\n';
+
+	$.get('request.php',
+		{
+			type: 'slope',
+			data: s
+		},
+		doSlope
+	);
+}
+
+function getPolish(){
+	var s = inputField.latex();
+	s = s.split('\\ ').join('');
+	console.log(s);
 	
+	$.get("request.php",
+		{
+			type: "parse",
+			data : s
+		},
+		getSlopes
+	);
+}
+
+function doCurve(data){
+	var raw = data.split('\n');
+	curve = [];
+
+	for(var i = 0; i < samples; i++){
+		var temp = raw[i].split(' ');
+		curve.push(temp);
+	}
+	render();
+}
+
+function getCurve(x, y){
+	if(!eqn) return;
+	var adj = (maxx - maxy) / 2;
+
+	x -= adj;
+	if(x < 0 || x > maxy) return;
+	x = (x / maxy * 2 - 1) * maxw;
+	y = ((maxy - y) / maxy * 2 - 1) * maxw;
+
+	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + samples + '\n200';
 	$.get("request.php",
 		{
 			type: "curve",
 			data : s
 		},
-		drawCurve
+		doCurve
 	);
 }
 
 
 $(document).ready(function(){
+	var canvas = document.getElementById('canvas');
+	var graph = document.getElementById('graph');
+	canvas.width = graph.clientWidth;
+	canvas.height = graph.clientHeight;
+	maxx = canvas.width;
+	maxy = canvas.height;
+
 	var MQ = MathQuill.getInterface(2);
 
 	var p = document.getElementById('prompt');
@@ -155,10 +154,11 @@ $(document).ready(function(){
 		if(e.which == 13) getPolish();
 	});
 
-	c = $('canvas');
-	maxw = 3;
+	c = $('#canvas');
 
-	getCurve();
+	$('#canvas').mousemove(function(e){
+		getCurve(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top);
+	});
 
 	$(document).dblclick(function(){
 		var ele = $('div');
@@ -166,5 +166,33 @@ $(document).ready(function(){
 			$(ele[i]).css('background-color', 'hsla(0, 0%, 80%, 0.1)');
 			$(ele[i]).css('border', '1px solid black');
 		}
+	});
+
+	$('#points').val(20);
+	points = 20;
+	$('#points-text').text(points);
+
+	$('#window').val(5);
+	maxw = 5;
+	$('#window-text').text('From -' + maxw + ' to ' + maxw);
+	
+	$('#samples').val(200);
+	samples = 200;
+	$('#samples-text').text(samples);
+
+	$('#points').change(function(){
+		points = $('#points').val() * 1;
+		$('#points-text').text(points);
+		getPolish();
+	});
+	$('#window').change(function(){
+		maxw = $('#window').val() * 1;
+		$('#window-text').text('From -' + maxw + ' to ' + maxw);
+		getPolish();
+	});
+	$('#samples').change(function(){
+		samples = $('#samples').val() * 1;
+		$('#samples-text').text(samples);
+		getPolish();
 	});
 });
