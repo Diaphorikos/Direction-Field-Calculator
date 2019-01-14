@@ -97,22 +97,12 @@ void fixFrac(string* in) {
 
 //Replaces all instances of "~#~x" with "~#~*x" and all instances of "~#~y" with "~#~*y"
 void fixCoefficients(string* in) {
-	int i = 1; 
-	if ((*in)[0] == 'x' || (*in)[0] == 'y') {
-		//Same principle as described below
-		*in = in->substr(0,0) + "(1*" + (*in)[0] + ")" + in->substr(1);;
-		i = 5;
-	}
-	for (; i < in->length(); i++) {
+	for (int i = 1; i < in->length(); i++) {
 		if ((*in)[i] == 'x' || (*in)[i] == 'y') {
 			if ((*in)[i - 1] >= '0' && (*in)[i - 1] <= '9') {
 				//The string is equal to everything up to the variable, "*", and everything after the variable
 				*in = in->substr(0, i) + "*" + in->substr(i);
 				i++;
-			} else {
-				//The string is equal to everything up to the variable, "(1*", the variable, ")", and everything after the variable
-				*in = in->substr(0, i) + "(1*"+ (*in)[i] + ")" + in->substr(i+1);
-				i += 3;
 			}
 		}
 	}
@@ -121,7 +111,7 @@ void fixCoefficients(string* in) {
 //Replaces all instances of unary minuses with "(0-~|#|~)", in other words, converting it into a regular minus
 void fixUnaryMinus(string* in) {
 	long long numEnd;
-	for (int i = in->length()-1; i > 0; i--) {
+	for (int i = in->length() - 1; i > 0; i--) {
 		if ((*in)[i] == '-') {
 			if (!((*in)[i - 1] == 'x' || (*in)[i - 1] == 'y' || ((*in)[i - 1] >= '0' && (*in)[i - 1] <= '9'))) {
 				numEnd = in->find_first_not_of("0123456789xy", i + 1);
