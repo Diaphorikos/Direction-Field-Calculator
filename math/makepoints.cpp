@@ -7,8 +7,368 @@
 #include<iostream>
 #include<stdio.h>
 #include<limits>
+#include<sstream>
+#include<iterator>
 
 using namespace std;
+
+int gcd(int a, int b){
+int t;
+while (b != 0){
+t = b;
+b = a%b;
+a = t;
+}
+return a;
+}
+
+void simplify(string* rpn){
+
+istringstream iss(*rpn);
+vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
+
+//loop for arithmetic
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+double args[] = {stod(f[i]), stod(f[i+1])};
+if (f[i+2] == "+"){
+ostringstream a;
+a << args[0]+args[1];
+f[i] = a.str();
+for (int x = 0 ; x < 2 ; ++x)
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+2] == "-"){
+ostringstream a;
+a << args[0]-args[1];
+f[i] = a.str();
+for (int x = 0 ; x < 2 ;++x)
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+2] == "*"){
+ostringstream a;
+a << args[0]*args[1];
+f[i] = a.str();
+for (int x = 0 ; x < 2 ;++x)
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+2] == "/" && (args[0]!=(int)args[0] || args[1] != (int)args[1] )){
+ostringstream a;
+a << args[0]/args[1];
+f[i] = a.str();
+for (int x = 0 ; x < 2 ; ++x)
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+2] == "^"){
+ostringstream a;
+a << pow(args[0], args[1]);
+f[i] = a.str();
+for (int x = 0 ; x < 2 ; ++x)
+f.erase(f.begin()+i+1);
+i=-1;
+}
+}
+catch(const invalid_argument& e){
+try{
+double arg = stod(f[i]);
+if (f[i+1] == "S"){
+ostringstream a;
+a << sqrt(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "l"){
+ostringstream a;
+a << log(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "a"){
+ostringstream a;
+a << abs(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "s"){
+ostringstream a;
+a << sin(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "c"){
+ostringstream a;
+a << cos(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "t"){
+ostringstream a;
+a << tan(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "u"){
+ostringstream a;
+a << asin(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "v"){
+ostringstream a;
+a << acos(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "w"){
+ostringstream a;
+a << atan(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "p"){
+ostringstream a;
+a << 1/cos(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "q"){
+ostringstream a;
+a << 1/sin(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "r"){
+ostringstream a;
+a << 1/tan(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "d"){
+ostringstream a;
+a << acos(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "J"){
+ostringstream a;
+a << asin(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "f"){
+ostringstream a;
+a << atan(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "h"){
+ostringstream a;
+a << sinh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "i"){
+ostringstream a;
+a << cosh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "j"){
+ostringstream a;
+a << tanh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "m"){
+ostringstream a;
+a << asinh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "n"){
+ostringstream a;
+a << acosh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "o"){
+ostringstream a;
+a << atanh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "g"){
+ostringstream a;
+a << 1/cosh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "k"){
+ostringstream a;
+a << 1/sinh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "z"){
+ostringstream a;
+a << 1/tanh(arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "A"){
+ostringstream a;
+a << acosh(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "B"){
+ostringstream a;
+a << asinh(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+else if (f[i+1] == "C"){
+ostringstream a;
+a << atanh(1/arg);
+f[i] = a.str();
+f.erase(f.begin()+i+1);
+i=-1;
+}
+}
+catch(const invalid_argument& e){}
+}
+}
+
+//loop for arithmetic with integral fractions
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+int args[] = {stoi(f[i]),stoi(f[i+1]),stoi(f[i+3]),stoi(f[i+4])};
+if(f[i+2] == "/" && f[i+5] == "/"){
+if (f[i+6] == "+"){
+int num = args[0]*args[3]+args[1]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "-"){
+int num = args[0]*args[3]-args[1]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "*"){
+int num = args[0]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "/"){
+int num = args[0]*args[3];
+int denom = args[1]*args[2];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+}
+}
+catch(const invalid_argument& e){}
+}
+
+//Power Loop
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+if (f[i+2] == "/" && f[i+3] == "^"){
+f[i+2] = "V";
+f.erase(f.begin()+i+3);
+}
+} catch(const invalid_argument& e){}
+}
+
+ostringstream nrpn;
+while(f.size()>0){
+nrpn << f.front() << ' ';
+f.erase(f.begin());
+}
+*rpn = nrpn.str();
+cout << "\"" << *rpn << "\"" << endl;
+}
 
 
 /*Reads and interprets a postfix expression by pushing operators onto the stack and then applying operators to the numbers on the back, before pushing the results back.*/
@@ -33,7 +393,8 @@ double f(string rpn, double x, double y) {
 				break;
 
 			case 'V':
-			{if(ops.size()<3) throw new invalid_argument("V");
+			{
+			if(ops.size()<3) throw new invalid_argument("V");
 			int denom = (int) ops.back();
 			ops.pop_back();
 			int num = (int) ops.back();
@@ -45,7 +406,7 @@ double f(string rpn, double x, double y) {
 				base = pow(abs(base), ((double)num)/denom);
 				if (!(num % 2)) base *= -1;
 				ops.push_back(base);
-			}}
+			}}break;
 
 			case '+':
 			{if (ops.size() < 2) throw new invalid_argument("+");
@@ -413,6 +774,7 @@ int main(){
 		int xs, ys;
 		getline(cin,rpn);
 		scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
+		simplify(&rpn);
 		vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
 		while (slopes.size() > 0){
 			cout << slopes.front() << endl;
@@ -426,6 +788,7 @@ int main(){
 		double xmin, xmax, ymin, ymax, initx, inity, len;
 		int samples;
 		scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
+		simplify(&rpn);
 		vector<pair<double,double>> points = getcurve(rpn, xmin, xmax, ymin, ymax, initx, inity, samples, len);
 		while (points.size() > 0){
 			cout << points.front().first << ' ' << points.front().second << endl;
