@@ -3,10 +3,8 @@ body{
 	background: url(../site/img/prism.png)repeat 0 0;
 }
 
-#nav{
-	width: 100%;
-	position: relative;
-	background-color: gray;
+.navbar-custom{
+	background: url(../site/img/what-the-hex.png)repeat 0 0;
 }
 
 #main{
@@ -35,22 +33,38 @@ body{
 }
 
 h1, h2 {
- font-family: 'Allerta', serif;
- color: white;
+	font-family: 'Allerta', serif;
+	color: white;
+}
+
+nav-head{
+	display: block;
+	font-size: 1.5em;
+	margin-top: 0.67em;
+	margin-bottom: 0.67em;
+	margin-left: 0;
+	margin-right: 0;
+	font-weight: bold;
+	font-family: 'Allerta', serif;
+	color: #31A9B8;
+	font-size: 40px;
+	line-height: 25px;
 }
  
 p {
- font-family: 'Crimson Text', sans-serif;
- font-size: 20px;
- line-height: 25px;
- color: white;
+	font-family: 'Crimson Text', sans-serif;
+	font-size: 20px;
+	line-height: 25px;
+	color: white;
 }
 
 p-invert {
- font-family: 'Crimson Text', sans-serif;
- font-size: 20px;
- line-height: 25px;
- color: black;
+	margin-top: 0;
+	margin-bottom: 1rem;
+	font-family: 'Crimson Text', sans-serif;
+	font-size: 20px;
+	line-height: 25px;
+	color: black;
 }
 
 #main, #container-fluid{
