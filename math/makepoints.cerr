@@ -1,0 +1,47 @@
+makepoints.cpp: In function ‘double f(std::__cxx11::string, double, double)’:
+makepoints.cpp:175:11: warning: declaration of ‘e’ shadows a previous local [-Wshadow]
+    double e = asin(1 / ops.back());
+           ^
+makepoints.cpp:23:36: note: shadowed declaration is here
+   } catch (const invalid_argument& e) { //if there was no number, it must have been some other operator, defined in docs/key.pdf
+                                    ^
+makepoints.cpp:277:33: error: call of overloaded ‘abs(std::__cxx11::basic_string<char>::size_type)’ is ambiguous
+  } while (abs(rpn.find(" ", pos)) < rpn.size()); //ends when no spaces (i.e. no operators/terms) left
+                                 ^
+In file included from /usr/include/c++/7/cstdlib:75:0,
+                 from /usr/include/c++/7/bits/stl_algo.h:59,
+                 from /usr/include/c++/7/algorithm:62,
+                 from makepoints.cpp:2:
+/usr/include/stdlib.h:837:12: note: candidate: int abs(int)
+ extern int abs (int __x) __THROW __attribute__ ((__const__)) __wur;
+            ^~~
+In file included from /usr/include/c++/7/cstdlib:77:0,
+                 from /usr/include/c++/7/bits/stl_algo.h:59,
+                 from /usr/include/c++/7/algorithm:62,
+                 from makepoints.cpp:2:
+/usr/include/c++/7/bits/std_abs.h:56:3: note: candidate: long int std::abs(long int)
+   abs(long __i) { return __builtin_labs(__i); }
+   ^~~
+/usr/include/c++/7/bits/std_abs.h:61:3: note: candidate: long long int std::abs(long long int)
+   abs(long long __x) { return __builtin_llabs (__x); }
+   ^~~
+/usr/include/c++/7/bits/std_abs.h:70:3: note: candidate: constexpr double std::abs(double)
+   abs(double __x)
+   ^~~
+/usr/include/c++/7/bits/std_abs.h:74:3: note: candidate: constexpr float std::abs(float)
+   abs(float __x)
+   ^~~
+/usr/include/c++/7/bits/std_abs.h:78:3: note: candidate: constexpr long double std::abs(long double)
+   abs(long double __x)
+   ^~~
+makepoints.cpp: In function ‘void transform(std::__cxx11::string*, double, double, double, double)’:
+makepoints.cpp:287:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  for (int i = 0; i < (*rpn).size(); ++i) {
+                  ~~^~~~~~~~~~~~~~~
+makepoints.cpp: In function ‘int main()’:
+makepoints.cpp:390:8: warning: ignoring return value of ‘int scanf(const char*, ...)’, declared with attribute warn_unused_result [-Wunused-result]
+   scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
+   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+makepoints.cpp:403:8: warning: ignoring return value of ‘int scanf(const char*, ...)’, declared with attribute warn_unused_result [-Wunused-result]
+   scanf("%lf %lf %lf %lf %lf %lf %d %lf", &xmin, &xmax, &ymin, &ymax, &initx, &inity, &samples, &len);
+   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
