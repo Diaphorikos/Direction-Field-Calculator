@@ -130,21 +130,28 @@ void fixUnaryMinus(string* in) {
 //Converts LaTeX input into infix notation
 void inputSanitization(string* in) {
 	//replacements contains operators ONLY if they do not use braces {}. Otherwise, a separate function needs to be made.
-	string replacements[][2] = { {"*", "\\cdot"},{"l", "\\ln"}, {"s","\\sin"},{"c","\\cos"},{"t","\\tan"},
-		{"u","\\arcsin"},{"v","\\arccos"},{"w","\\arctan"},{"p","\\sec"},{"q","\\csc"},{"r","\\cot"},
-		{"d","\\arcsec"},{"e","\\arccsc"},{"f","\\arccot"},{"h","\\sinh"},{"i","\\cosh"},{"j","\\tanh"},{"m","\\arcsinh"},
-		{"n","\\arccosh"},{"o","\\arctanh"},{"g","\\sech"},{"k","\\csch"},{"z","\\coth"},{"A","\\arcsec"},{"B","\\arccsc"},{"C","\\arccot"} };
-	removeFromInput(in, " ");
+	string replaceConst[][2] = {{"3.1415926535897932384626433832795", "\\pi"}, {"2.7182818284590452353602874713527", "e"}};
+	string replaceFunc[][2] = { {"*", "\\cdot"},{"l", "\\ln"}, {"S", "\\sqrt"}, //Basic functions
+		{"m","\\arcsinh"}, {"B","\\arccsch"}, {"u","\\arcsin"}, {"J","\\arccsc"}, {"h","\\sinh"}, {"g","\\sech"}, {"s","\\sin"}, {"q","\\csc"}, //Sine functions
+		{"n","\\arccosh"}, {"A","\\arcsech"}, {"v","\\arccos"}, {"d","\\arcsec"}, {"i","\\cosh"}, {"k","\\csch"}, {"c","\\cos"}, {"p","\\sec"}, //Cosine functions
+		{"o","\\arctanh"}, {"C","\\arccoth"}, {"w","\\arctan"}, {"f","\\arccot"}, {"j","\\tanh"}, {"z","\\coth"}, {"t","\\tan"}, {"r","\\cot"} //Tangent functions
+		};
+	removeFromInput(in, " "); //Spaces
+	//Functions
 	fixAbsoluteValue(in);
 	removeFromInput(in, "\\left");
 	removeFromInput(in, "\\right");
 	fixPower(in);
 	fixFrac(in);
-	fixCoefficients(in);
-	fixUnaryMinus(in);
-	for (auto& arr : replacements) {
+	for (auto& arr : replaceFunc) {
 		replaceInInput(in, arr[1], arr[0]);
 	}
+	//Arguments
+	for (auto& arr : replaceConst) {
+		replaceInInput(in, arr[1], arr[0]);
+	}
+	fixCoefficients(in);
+	fixUnaryMinus(in);
 }
 
 //Checks that a given symbol is a letter
