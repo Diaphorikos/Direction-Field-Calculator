@@ -32,6 +32,21 @@ double f(string rpn, double x, double y) {
 				ops.push_back(y);
 				break;
 
+			case 'V':
+			{if(ops.size()<3) throw new invalid_argument("V");
+			int denom = (int) ops.back();
+			ops.pop_back();
+			int num = (int) ops.back();
+			ops.pop_back();
+			double base = ops.back();
+			ops.pop_back();
+			if (base >= 0 || !(denom%2)) ops.push_back(pow(base, ((double) num)/denom));
+			else{
+				base = pow(abs(base), ((double)num)/denom);
+				if (!(num % 2)) base *= -1;
+				ops.push_back(base);
+			}}
+
 			case '+':
 			{if (ops.size() < 2) throw new invalid_argument("+");
 			double sum = ops.back();
@@ -84,6 +99,13 @@ double f(string rpn, double x, double y) {
 			base = log(ops.back()) / log(base);
 			ops.pop_back();
 			ops.push_back(base);
+			}break;
+			
+			case 'S':
+			{if (ops.size() < 1) throw new invalid_argument("S");
+			double sqt = sqrt(ops.back());
+			ops.pop_back();
+			ops.push_back(sqt);
 			}break;
 
 			case 'l':
@@ -170,7 +192,7 @@ double f(string rpn, double x, double y) {
 			ops.push_back(d);
 			}break;
 
-			case 'e':
+			case 'J':
 			{if (ops.size() < 1) throw new invalid_argument("e");
 			double e = asin(1 / ops.back());
 			ops.pop_back();
@@ -318,6 +340,7 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	initx = (initx - xmax / 2 - xmin / 2) / (xmax / 2 - xmin / 2);
 	inity = (inity - ymax / 2 - ymin / 2) / (ymax / 2 - ymin / 2);
 
+
 	double slope = f(rpn, initx, inity);
 	if (isnan(slope)){ goto end;}
 	
@@ -350,11 +373,12 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 		//if slope infinite, go up or down
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
-			points.push_back(make_pair(points.back().first, points.back().second + del * coeff / (ymax - ymin)));
+			points.push_back(make_pair(points.back().first, points.back().second + del * coeff  / (ymax - ymin)));
 		} else {
 			dx = del / sqrt(1 + pow(slope, 2));
-			points.push_back(make_pair(points.back().first + dx / (xmax - xmin), points.back().second + slope * dx / (ymax - ymin)));
+			points.push_back(make_pair(points.back().first + dx  / (xmax - xmin), points.back().second + slope * dx  / (ymax - ymin)));
 		}
+		if (points.back().first > 1) break;
 	}
 	
 	//Right-to-Left (x decreasing)
@@ -366,11 +390,12 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 		if (isnan(slope)){cancer = 1; samples -= i*2 ; goto flag;}
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
-			points.push_back(make_pair(points.front().first, points.front().second + del * coeff / (ymax - ymin)));
+			points.push_back(make_pair(points.front().first, points.front().second + del  * coeff / (ymax - ymin)));
 		} else {
 			dx = del / sqrt(1 + pow(slope, 2));
-			points.insert(points.begin(), make_pair(points.front().first - dx / (xmax - xmin), points.front().second - slope * dx / (ymax - ymin)));
+			points.insert(points.begin(), make_pair(points.front().first - dx  / (xmax - xmin), points.front().second - slope * dx  / (ymax - ymin)));
 		}
+		if (points.front().first < -1) break;
 	}}
 	end:
 	points.push_back(make_pair(INFINITY, INFINITY));
