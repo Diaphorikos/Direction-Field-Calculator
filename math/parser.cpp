@@ -2,8 +2,23 @@
 #include<string>
 #include <algorithm>
 #include <stack>
+#include<stdexcept>
+#include<vector>
+#include<sstream>
+#include<iterator>
 
 using namespace std;
+
+
+int gcd(int a, int b){
+int t;
+while (b != 0){
+t = b;
+b = a%b;
+a = t;
+}
+return a;
+}
 
 //Removes all instances of "of" from "in"
 void removeFromInput(string* in, string of) {
@@ -240,6 +255,110 @@ void reversePolish(const string in, string* out) {
 	}
 }
 
+void fixfracs(string* rpn){
+istringstream iss(*rpn);
+vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
+
+//loop for basic arithmetic
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+int args[] = {stoi(f[i]),stoi(f[i+1]),stoi(f[i+3]),stoi(f[i+4])};
+if(f[i+2] == "/" && f[i+5] == "/"){
+if (f[i+6] == "+"){
+int num = args[0]*args[3]+args[1]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "-"){
+int num = args[0]*args[3]-args[1]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "*"){
+int num = args[0]*args[2];
+int denom = args[1]*args[3];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+else if(f[i+6] == "/"){
+int num = args[0]*args[3];
+int denom = args[1]*args[2];
+int dv = gcd(num, denom);
+num /= dv;
+denom /= dv;
+ostringstream cancer;
+cancer << num;
+f.insert(f.begin()+i+7, cancer.str());
+ostringstream aids;
+aids << denom;
+f.insert(f.begin()+i+8, aids.str());
+f.insert(f.begin()+i+9, "/");
+for (int x = 0 ; x < 7 ; ++x){
+f.erase(f.begin()+i);
+}
+i = -1;
+}
+}
+}
+catch(const invalid_argument& e){}
+}
+
+//Power Loop
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+if (f[i+2] == "/" && f[i+3] == "^"){
+f[i+2] = "V";
+f.erase(f.begin()+i+3);
+}
+} catch(const invalid_argument& e){}
+}
+
+ostringstream nrpn;
+while(f.size()>0){
+nrpn << f.front() << ' ';
+f.erase(f.begin());
+}
+*rpn = nrpn.str();
+}
+
 int main() {
 	//Input
 	auto* in = new string();
@@ -248,6 +367,7 @@ int main() {
 	//Processing
 	inputSanitization(in);
 	reversePolish(*in, out);
+	fixfracs(out);
 	//Output
 	cout << *out;
 }
