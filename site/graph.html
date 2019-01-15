@@ -45,15 +45,6 @@
 
 			<div id="container-fluid">
 				<div id="sidebar" class="panel panel-default">
-					<div type="row">
-						<span id="prompt">\dfrac{dy}{dx} =</span>
-						<div id="input" type="text"></div>
-
-						<!-- NOTE: MATHQUILL INPUT CANNOT BE AN <INPUT>
-								MUST BE A <DIV>
-						-->
-						<button id="submit" class="btn btn-default" type="button">Go!</button>
-					</div>
 					<div id="sliders">
 						<div>
 							<p-invert>Points: <span id="points-text"></span></p-invert>
@@ -69,6 +60,15 @@
 							<p-invert>Precision: <div id="samples-text"></div></p-invert>
 							<input id="samples" type="range" min="10" max="1000" step="1" value="50">
 						</div>
+					</div>
+					<div type="row">
+						<span id="prompt">\dfrac{dy}{dx} =</span>
+						<div id="input" type="text"></div>
+
+						<!-- NOTE: MATHQUILL INPUT CANNOT BE AN <INPUT>
+								MUST BE A <DIV>
+						-->
+						<button id="submit" class="btn btn-default" type="button">Go!</button>
 					</div>
 				</div>
 				<div id="graph">
