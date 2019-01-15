@@ -358,8 +358,9 @@ catch(const invalid_argument& e){}
 for (int i = 0 ; i < f.size() ; ++i){
 try{
 if (f[i+2] == "/" && f[i+3] == "^"){
+cout << "why" << endl;
 f[i+2] = "V";
-f.erase(f.begin()+i+3);
+//f.erase(f.begin()+i+3);
 }
 } catch(const invalid_argument& e){}
 }
@@ -406,7 +407,7 @@ double f(string rpn, double x, double y) {
 			if (base >= 0 || !(denom%2)) ops.push_back(pow(base, ((double) num)/denom));
 			else{
 				base = pow(abs(base), ((double)num)/denom);
-				if (!(num % 2)) base *= -1;
+				if (num % 2) base *= -1;
 				ops.push_back(base);
 			}}break;
 
@@ -777,6 +778,7 @@ int main(){
 		getline(cin,rpn);
 		scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
 		simplify(&rpn);
+		//cout << rpn << endl;
 		vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
 		while (slopes.size() > 0){
 			cout << slopes.front() << endl;
