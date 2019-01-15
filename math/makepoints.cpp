@@ -358,7 +358,7 @@ catch(const invalid_argument& e){}
 for (int i = 0 ; i < f.size() ; ++i){
 try{
 if (f[i+2] == "/" && f[i+3] == "^"){
-cout << "why" << endl;
+//cout << "why" << endl;
 f[i+2] = "V";
 //f.erase(f.begin()+i+3);
 }
@@ -778,7 +778,7 @@ int main(){
 		getline(cin,rpn);
 		scanf("%lf %lf %lf %lf %d %d", &xmin, &xmax, &ymin, &ymax, &xs, &ys);
 		simplify(&rpn);
-		//cout << rpn << endl;
+//		cout << rpn << endl;
 		vector<double> slopes = getfield(rpn, xmin, xmax, ymin, ymax, xs, ys);
 		while (slopes.size() > 0){
 			cout << slopes.front() << endl;
