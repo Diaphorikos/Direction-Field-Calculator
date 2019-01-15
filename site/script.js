@@ -28,6 +28,48 @@ function render(){
 
 	var adj = (maxx - maxy) / 2;
 
+	c.drawLine({
+		strokeStyle: 'black',
+		strokeWidth: 3,
+		x1: maxx/2, y1: 10,
+		x2: maxx/2, y2: maxy - 10,
+		startArrow: true,
+		endArrow: true,
+		arrowRadius: 10,
+		arrowAngle: 90
+	});
+
+	c.drawLine({
+		strokeStyle: 'black',
+		strokeWidth: 3,
+		x1: adj + 10, y1: maxy/2,
+		x2: maxx - adj - 10, y2: maxy/2,
+		startArrow: true,
+		endArrow: true,
+		arrowRadius: 10,
+		arrowAngle: 90
+	});
+
+	c.drawText({
+		fillStyle: 'black',
+		x: maxx - adj + 5,
+		y: maxy/2,
+		fontSize: 25,
+		fontFamily: 'Monospace',
+		fontStyle: 'italic',
+		text: 'x'
+	});
+
+	c.drawText({
+		fillStyle: 'black',
+		x: maxx/2 + 15,
+		y: 17,
+		fontSize: 25,
+		fontFamily: 'Monospace',
+		fontStyle: 'italic',
+		text: 'y'
+	});
+
 	for(var i = 0; i < points; i++){
 		for(var j = 0; j < points; j++){
 			if(/*slopes[i][j] == 'nan' || slopes[i][j] == '-nan' ||*/ slopes[i][j] == 'inf' || slopes[i][j] == '-inf')
@@ -35,7 +77,6 @@ function render(){
 			drawSlope(maxy / (points + 3), slopes[i][j] * 1, (i + 1)/(points + 1) * maxy + adj, (j + 1)/(points + 1) * maxy);
 		}
 	}
-	console.log(maxx, maxy);
 
 	var adj = (maxx - maxy)/2;
 
@@ -46,7 +87,7 @@ function render(){
 		var y2 = curve[i + 1][1] * 1;
 
 		c.drawLine({
-			strokeStyle: 'black',
+			strokeStyle: 'grey',
 			strokeWidth: 2,
 			x1: (x1 + 1) / 2 * maxy + adj,
 			y1: maxy - ((y1 + 1) / 2 * maxy),
@@ -193,6 +234,19 @@ $(document).ready(function(){
 	$('#samples').change(function(){
 		samples = $('#samples').val() * 1;
 		$('#samples-text').text(samples);
+		getPolish();
+	});
+
+	var iter = 0;
+	$(window).on('wheel', function(e){
+		var x = e.originalEvent.wheelDelta;
+
+		maxw += Math.floor(x / 100);
+		if(maxw < 1) maxw = 1;
+		if(maxw > 20) maxw = 20;
+		$('#window').val(maxw);
+
+		$('#window-text').text('From -' + maxw + ' to ' + maxw);
 		getPolish();
 	});
 });
