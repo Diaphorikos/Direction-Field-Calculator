@@ -27,7 +27,7 @@ void simplify(string* rpn){
 istringstream iss(*rpn);
 vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
 
-f.pop_back();
+//f.pop_back();
 
 //loop for arithmetic
 for (int i = 0 ; i < f.size() - 1 ; ++i){
@@ -357,10 +357,10 @@ catch(const invalid_argument& e){}
 //Power Loop
 for (int i = 0 ; i < f.size() ; ++i){
 try{
-if (f[i+2] == "/" && f[i+3] == "^"){
+if (f[i] == "/" && f[i+1] == "^"){
 //cout << "why" << endl;
-f[i+2] = "V";
-//f.erase(f.begin()+i+3);
+f[i] = "V";
+f.erase(f.begin()+i+1);
 }
 } catch(const invalid_argument& e){}
 }
