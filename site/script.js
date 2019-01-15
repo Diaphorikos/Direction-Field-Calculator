@@ -178,7 +178,7 @@ $(document).ready(function(){
 	
 	$('#samples').val(200);
 	samples = 200;
-	$('#samples-text').text(samples);
+	$('#samples-text').text(samples + ' points per curve');
 
 	$('#points').change(function(){
 		points = $('#points').val() * 1;
@@ -192,7 +192,7 @@ $(document).ready(function(){
 	});
 	$('#samples').change(function(){
 		samples = $('#samples').val() * 1;
-		$('#samples-text').text(samples);
+		$('#samples-text').text(samples + ' points per curve');
 		getPolish();
 	});
 });
