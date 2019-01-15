@@ -367,7 +367,6 @@ nrpn << f.front() << ' ';
 f.erase(f.begin());
 }
 *rpn = nrpn.str();
-cout << "\"" << *rpn << "\"" << endl;
 }
 
 
