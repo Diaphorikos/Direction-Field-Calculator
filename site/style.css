@@ -82,9 +82,6 @@ p-invert {
 	line-height: 25px;
 	color: black;
 }
-<<<<<<< HEAD
-=======
-
 
 /*slider stuff*/
 input[type=range] {
@@ -176,4 +173,3 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: var(--slider-bg);
 }
->>>>>>> f2cbcad0bf2ed9cdacc824bcc23f735468015a5b
