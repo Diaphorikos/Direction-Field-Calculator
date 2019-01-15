@@ -45,7 +45,10 @@ body{
 }
 
 #input{
+	border-radius: 5px;
 	background-color: white;
+	width: 64%;
+	height: 30% !important;
 }
 
 h1, h2 {
