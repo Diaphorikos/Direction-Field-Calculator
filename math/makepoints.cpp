@@ -30,7 +30,8 @@ vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
 //f.pop_back();
 
 //loop for arithmetic
-for (int i = 0 ; i < f.size() - 1 ; ++i){
+for (int i = 0 ; i + 1 < f.size() ; ++i){
+//cout << f.size() << ' ' << i << endl;
 try{
 if (i == f.size() - 3) stod("bad practice");
 double args[] = {stod(f[i]), stod(f[i+1])};
@@ -273,7 +274,7 @@ catch(const invalid_argument& e){}
 }
 
 //loop for arithmetic with integral fractions
-for (int i = 0 ; i < f.size() ; ++i){
+for (int i = 0 ; i + 6 < f.size(); ++i){
 try{
 int args[] = {stoi(f[i]),stoi(f[i+1]),stoi(f[i+3]),stoi(f[i+4])};
 if(f[i+2] == "/" && f[i+5] == "/"){
@@ -355,7 +356,7 @@ catch(const invalid_argument& e){}
 }
 
 //Power Loop
-for (int i = 0 ; i < f.size() ; ++i){
+for (int i = 0 ; i + 1 < f.size() ; ++i){
 try{
 if (f[i] == "/" && f[i+1] == "^"){
 //cout << "why" << endl;
