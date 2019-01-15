@@ -1,3 +1,11 @@
+
+:root{
+	--slider-bg: #454545;/*background for the slider*/
+	/*#50555C;*/
+	--slider-sl: #31A9B8; /*the slidey part*/
+	/*#529DE1; */
+}
+
 body{
 	padding-top: 110px;
 	background: url(../site/img/prism.png)repeat 0 0;
@@ -74,6 +82,8 @@ p-invert {
 	line-height: 25px;
 	color: black;
 }
+<<<<<<< HEAD
+=======
 
 
 /*slider stuff*/
@@ -91,8 +101,8 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 14px;
   cursor: pointer;
   animate: 0.2s;
-  box-shadow: 1px 1px 1px #50555C;
-  background: #50555C;
+  box-shadow: 1px 1px 1px var(--slider-bg);
+  background: var(--slider-bg);
   border-radius: 14px;
   border: 0px solid #000000;
 }
@@ -102,21 +112,21 @@ input[type=range]::-webkit-slider-thumb {
   height: 20px;
   width: 40px;
   border-radius: 12px;
-  background: #529DE1;
+  background: var(--slider-sl);
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -3px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #50555C;
+  background: var(--slider-bg);
 }
 input[type=range]::-moz-range-track {
   width: 100%;
   height: 14px;
   cursor: pointer;
   animate: 0.2s;
-  box-shadow: 1px 1px 1px #50555C;
-  background: #50555C;
+  box-shadow: 1px 1px 1px var(--slider-bg);
+  background: var(--slider-bg);
   border-radius: 14px;
   border: 0px solid #000000;
 }
@@ -126,7 +136,7 @@ input[type=range]::-moz-range-thumb {
   height: 20px;
   width: 40px;
   border-radius: 12px;
-  background: #529DE1;
+  background: var(--slider-sl);
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -139,16 +149,16 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 input[type=range]::-ms-fill-lower {
-  background: #50555C;
+  background: var(--slider-bg);
   border: 0px solid #000000;
   border-radius: 28px;
-  box-shadow: 1px 1px 1px #50555C;
+  box-shadow: 1px 1px 1px var(--slider-bg);
 }
 input[type=range]::-ms-fill-upper {
-  background: #50555C;
+  background: var(--slider-bg);
   border: 0px solid #000000;
   border-radius: 28px;
-  box-shadow: 1px 1px 1px #50555C;
+  box-shadow: 1px 1px 1px var(--slider-bg);
 }
 input[type=range]::-ms-thumb {
   margin-top: 1px;
@@ -157,12 +167,13 @@ input[type=range]::-ms-thumb {
   height: 20px;
   width: 40px;
   border-radius: 12px;
-  background: #529DE1;
+  background: var(--slider-sl);
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: #50555C;
+  background: var(--slider-bg);
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #50555C;
+  background: var(--slider-bg);
 }
+>>>>>>> f2cbcad0bf2ed9cdacc824bcc23f735468015a5b
