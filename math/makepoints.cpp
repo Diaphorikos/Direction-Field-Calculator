@@ -27,9 +27,12 @@ void simplify(string* rpn){
 istringstream iss(*rpn);
 vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
 
+f.pop_back();
+
 //loop for arithmetic
-for (int i = 0 ; i < f.size() ; ++i){
+for (int i = 0 ; i < f.size() - 1 ; ++i){
 try{
+if (i == f.size() - 3) stod("bad practice");
 double args[] = {stod(f[i]), stod(f[i+1])};
 if (f[i+2] == "+"){
 ostringstream a;
