@@ -16,7 +16,7 @@
 		<script src="js/bootstrap.min.js"></script>
 		<link rel="shortcut icon" type="image/png" href="favicon.png"/>
 	</head>
-
+	
 	<body>
 		<div id="main">
 			<nav class="navbar navbar-custom navbar-fixed-top">
@@ -66,19 +66,19 @@
 					<div id="sliders">
 						<div>
 							<p-invert>Points:</p-invert>
-							<input type="range" id="points" min="2" max="50">
+							<input id="points" type="range" min="2" max="50" step="1" value="2">
 							<span id="points-text"></span>
 						</div>
 
 						<div>
 							<p-invert>Window Size:</p-invert>
-							<input type="range" id="window" min="1" max="10">
+							<input id="window" type="range" min="1" max="10" step="1" value="1">
 							<div id="window-text"></div>
 						</div>
 
 						<div>
 							<p-invert>Precision:</p-invert>
-							<input type="range" id="samples" min="10" max="1000">
+							<input id="samples" type="range" min="10" max="1000" step="1" value="50">
 							<div id="samples-text"></div>
 						</div>
 					</div>
