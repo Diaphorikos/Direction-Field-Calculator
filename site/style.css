@@ -15,6 +15,13 @@ body{
 	background: url(../site/img/what-the-hex.png)repeat 0 0;
 }
 
+/*#header{
+	width:100%;
+	padding-left: 50px;
+	padding-right: 50px;
+	height: 150px;
+}*/
+
 #brand{
 	/*padding-right: 70%;*/
 }
@@ -48,7 +55,11 @@ body{
 	border-radius: 5px;
 	background-color: white;
 	width: 64%;
-	height: 30% !important;
+}
+
+#submit{
+	height: 30px;
+	
 }
 
 h1, h2 {
@@ -66,6 +77,20 @@ nav-head{
 	font-weight: bold;
 	font-family: 'Allerta', serif;
 	color: #31A9B8;
+	font-size: 36px;
+	line-height: 25px;
+}
+
+h1-invert{
+	display: block;
+	font-size: 1.5em;
+	margin-top: 0.67em;
+	margin-bottom: 0.67em;
+	margin-left: 0;
+	margin-right: 0;
+	font-weight: bold;
+	font-family: 'Allerta', serif;
+	color: black;
 	font-size: 40px;
 	line-height: 25px;
 }
