@@ -1,4 +1,4 @@
-var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn, samples2;
+var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn, samples2, slength;
 
 function drawSlope(length, slope, xc, yc){
 	c.drawLine({
@@ -225,7 +225,8 @@ function getCurve(x, y, r){
 	$('#pointx').val('' + x*1);
 	$('#pointy').val('' + y*1);
 
-	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + samples + '\n200';
+	console.log(slength);
+	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + samples + '\n' + slength;
 	$.get("request.php",
 		{
 			type: "curve",
@@ -285,6 +286,9 @@ $(document).ready(function(){
 	samples = 200;
 	$('#samples-text').text(samples + ' points per curve');
 
+	slength = 100;
+	$('#length-text').text(slength + ' units');
+
 	$('#points').change(function(){
 		points = $('#points').val() * 1;
 		$('#points-text').text(points + ' points per axis ');
@@ -298,6 +302,11 @@ $(document).ready(function(){
 	$('#samples').change(function(){
 		samples = $('#samples').val() * 1;
 		$('#samples-text').text(samples + ' points per curve');
+		getPolish();
+	});
+	$('#length').change(function(){
+		slength = $('#length').val() * 1;
+		$('#length-text').text(slength + ' units');
 		getPolish();
 	});
 
