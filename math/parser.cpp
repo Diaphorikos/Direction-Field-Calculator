@@ -79,17 +79,17 @@ void fixFrac(string* in) {
 	char temp;
 	for (int i = 0; numClosed != -1 || i + 6 < in->length(); i++) { //Extremely time consuming, can be improved
 		if (in->substr(i, 6) == "\\frac{") {//Resets serach if new frac encountered
-			if (i>0 && (*in)[i-1]=='-') {
+			/*if (i>0 && (*in)[i-1]=='-') {
 				temp = (i>1?(*in)[i - 2]:0);
 				if (temp==0||!((temp>='0'&&temp<='1')||temp=='x'||temp=='y')) {
 					//The new string is equal to everything up to the negative sign, "\frac{-", and everything after the opening bracket
 					*in = in->substr(0, i - 1) + "\\frac{-" + in->substr(i + 6);
 					i--;
 				}
-			}
+			}*/
 			numClosed = 0;
 			start = i;
-			i += 6;
+			i += 5;
 		} else if (numClosed != -1 && (*in)[i] == '}') {
 			numClosed++;
 			if (numClosed == 1) {//First closing bracket found
