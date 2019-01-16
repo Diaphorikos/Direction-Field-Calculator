@@ -64,7 +64,7 @@ body{
 
 h1, h2 {
 	font-family: 'Allerta', serif;
-	color: black;
+	color: white;
 }
 
 nav-head{
@@ -99,7 +99,7 @@ p {
 	font-family: 'Crimson Text', sans-serif;
 	font-size: 20px;
 	line-height: 25px;
-	color: black;
+	color: white;
 }
 
 p-invert {
