@@ -275,7 +275,7 @@ $(document).ready(function(){
 
 	$('#points').val(20);
 	points = 20;
-	$('#points-text').text(points + ' per axis ');
+	$('#points-text').text(points + ' points per axis ');
 
 	$('#window').val(5);
 	maxw = 5;
@@ -287,7 +287,7 @@ $(document).ready(function(){
 
 	$('#points').change(function(){
 		points = $('#points').val() * 1;
-		$('#points-text').text(points + ' per axis ');
+		$('#points-text').text(points + ' points per axis ');
 		getPolish();
 	});
 	$('#window').change(function(){
