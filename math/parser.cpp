@@ -123,9 +123,9 @@ void fixUnaryMinus(string* in) {
 	for (int i = in->length() - 1; i > 0; i--) {
 		if ((*in)[i] == '-') {
 			if (!((*in)[i - 1] == 'x' || (*in)[i - 1] == 'y' || ((*in)[i - 1] >= '0' && (*in)[i - 1] <= '9'))) {
-				if ((*in)[i-1] == '(') {
+				if ((*in)[i - 1] == '(') {
 					*in = in->substr(0, i) + "0" + in->substr(i);
-				} else {
+				} else if ((*in)[i - 1] != ')') {
 					numEnd = in->find_first_not_of("0123456789xy", i + 1);
 					//The string is equal to everything up to the unary minus, "(0-", the number, ")", and everything up to the number
 					*in = in->substr(0, i) + "(0" + in->substr(i, numEnd - i) + ")" + (numEnd == string::npos ? "" : in->substr(numEnd));
@@ -260,6 +260,7 @@ int main() {
 	getline(cin, *in);
 	//Processing
 	inputSanitization(in);
+	cout << *in << '\n';
 	reversePolish(*in, out);
 	//Output
 	cout << *out;
