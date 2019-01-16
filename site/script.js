@@ -226,7 +226,7 @@ function getCurve(x, y, r){
 	$('#pointy').val('' + y*1);
 
 	console.log(slength);
-	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + samples + '\n' + slength;
+	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + (samples * slength) + '\n' + slength;
 	$.get("request.php",
 		{
 			type: "curve",
@@ -282,9 +282,9 @@ $(document).ready(function(){
 	maxw = 5;
 	$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 	
-	$('#samples').val(200);
-	samples = 200;
-	$('#samples-text').text(samples + ' points per curve');
+	$('#samples').val(20);
+	samples = 20;
+	$('#samples-text').text(samples + ' points per unit');
 
 	slength = 100;
 	$('#length-text').text(slength + ' units');
@@ -301,7 +301,7 @@ $(document).ready(function(){
 	});
 	$('#samples').change(function(){
 		samples = $('#samples').val() * 1;
-		$('#samples-text').text(samples + ' points per curve');
+		$('#samples-text').text(samples + ' points per unit');
 		getPolish();
 	});
 	$('#length').change(function(){
