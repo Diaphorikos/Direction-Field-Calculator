@@ -131,13 +131,23 @@ function render(){
 		var x2 = curve[i + 1][0] * 1;
 		var y2 = curve[i + 1][1] * 1;
 
+		x1 = (x1 + 1) / 2 * maxy + adj;
+		y1 = maxy - ((y1 + 1) / 2 * maxy);
+		x2 = (x2 + 1) / 2 * maxy + adj;
+		y2 = maxy - ((y2 + 1) / 2 * maxy);
+
+		if(x1 < adj + 10 || x1 > maxx - adj - 10) continue;
+		if(x2 < adj + 10 || x2 > maxx - adj - 10) continue;
+		if(y1 < 10 || y1 > maxy - 10) continue;
+		if(y2 < 10 || y2 > maxy - 10) continue;
+
 		c.drawLine({
 			strokeStyle: 'red',
 			strokeWidth: 2,
-			x1: (x1 + 1) / 2 * maxy + adj,
-			y1: maxy - ((y1 + 1) / 2 * maxy),
-			x2: (x2 + 1) / 2 * maxy + adj,
-			y2: maxy - ((y2 + 1) / 2 * maxy)
+			x1: x1,
+			y1: y1,
+			x2: x2,
+			y2: y2
 		});
 	}
 }
