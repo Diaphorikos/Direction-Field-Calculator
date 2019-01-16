@@ -279,7 +279,7 @@ $(document).ready(function(){
 
 	$('#window').val(5);
 	maxw = 5;
-	$('#window-text').text('From -' + maxw + ' to ' + maxw);
+	$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 	
 	$('#samples').val(200);
 	samples = 200;
@@ -292,7 +292,7 @@ $(document).ready(function(){
 	});
 	$('#window').change(function(){
 		maxw = $('#window').val() * 1;
-		$('#window-text').text('From -' + maxw + ' to ' + maxw);
+		$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 		getPolish();
 	});
 	$('#samples').change(function(){
@@ -313,7 +313,7 @@ $(document).ready(function(){
 		if(maxw > 20) maxw = 20;
 		$('#window').val(maxw);
 
-		$('#window-text').text('From -' + maxw + ' to ' + maxw);
+		$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 		getPolish();
 	});
 	getPolish();
