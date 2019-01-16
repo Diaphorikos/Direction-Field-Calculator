@@ -8,11 +8,11 @@
 
 body{
 	padding-top: 110px;
-	background: url(../site/img/prism.png)repeat 0 0;
+	background: url(img/prism.png)repeat 0 0;
 }
 
 .navbar-custom{
-	background: url(../site/img/what-the-hex.png)repeat 0 0;
+	background: url(img/what-the-hex.png)repeat 0 0;
 }
 
 /*#header{
