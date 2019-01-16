@@ -16,8 +16,9 @@ body{
 
 #graph{
 	position: absolute;
+	border-radius: 5px;
 	right: 2%;
-	width: 70%;
+	width: 63%;
 	height: calc(100vh - 120px);
 }
 
