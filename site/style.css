@@ -94,6 +94,13 @@ h1-invert{
 	font-size: 40px;
 	line-height: 25px;
 }
+
+li {
+	font-family: 'Crimson Text', sans-serif;
+	font-size: 20px;
+	line-height: 25px;
+	color: white;
+}
  
 p {
 	font-family: 'Crimson Text', sans-serif;
