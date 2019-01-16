@@ -70,9 +70,54 @@ function render(){
 		text: 'y'
 	});
 
+	var tick = Math.floor(Math.sqrt(maxw));
+	var len = Math.floor(maxw/tick) - 1;
+
+	for(var i = -len; i <= len; i++){
+		if(i == 0) continue;
+
+		c.drawLine({
+			strokeStyle: 'black',
+			strokeWidth: 2,
+			x1: i * tick / maxw / 2 * maxy + adj + maxy/2,
+			x2: i * tick / maxw / 2 * maxy + adj + maxy/2,
+			y1: maxy/2 - 10,
+			y2: maxy/2 + 10
+		});
+		
+		c.drawText({
+			fillStyle: 'black',
+			x: i * tick / maxw / 2 * maxy + adj + maxy/2,
+			y: maxy/2 - 17,
+			fontSize: 15,
+			fontFamily: 'Monospace',
+			text: '' + (i * tick),
+			fromCenter: true
+		});
+
+		c.drawLine({
+			strokeStyle: 'black',
+			strokeWidth: 2,
+			y1: i * tick / maxw / 2 * maxy + maxy/2,
+			y2: i * tick / maxw / 2 * maxy + maxy/2,
+			x1: maxy/2 - 10 + adj,
+			x2: maxy/2 + 10 + adj
+		});
+		
+		c.drawText({
+			fillStyle: 'black',
+			y: i * tick / maxw / 2 * maxy + maxy/2,
+			x: maxy/2 + 20 + adj,
+			fontSize: 15,
+			fontFamily: 'Monospace',
+			text: '' + (i * tick),
+			fromCenter: true
+		});
+	}
+
 	for(var i = 0; i < points; i++){
 		for(var j = 0; j < points; j++){
-			if(/*slopes[i][j] == 'nan' || slopes[i][j] == '-nan' ||*/ slopes[i][j] == 'inf' || slopes[i][j] == '-inf')
+			if(slopes[i][j] == 'inf' || slopes[i][j] == '-inf')
 				slopes[i][j] = 9999;
 			drawSlope(maxy / (points + 3), slopes[i][j] * 1, (i + 1)/(points + 1) * maxy + adj, (j + 1)/(points + 1) * maxy);
 		}
