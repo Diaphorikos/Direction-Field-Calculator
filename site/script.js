@@ -110,7 +110,7 @@ function render(){
 			x: maxy/2 + 20 + adj,
 			fontSize: 15,
 			fontFamily: 'Monospace',
-			text: '' + (i * tick),
+			text: '' + (-i * tick),
 			fromCenter: true
 		});
 	}
