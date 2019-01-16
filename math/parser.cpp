@@ -260,7 +260,7 @@ int main() {
 	getline(cin, *in);
 	//Processing
 	inputSanitization(in);
-	cout << *in << '\n';
+	//cout << *in << '\n';
 	reversePolish(*in, out);
 	//Output
 	cout << *out;
