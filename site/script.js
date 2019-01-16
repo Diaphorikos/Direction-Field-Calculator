@@ -136,10 +136,10 @@ function render(){
 		x2 = (x2 + 1) / 2 * maxy + adj;
 		y2 = maxy - ((y2 + 1) / 2 * maxy);
 
-		if(x1 < adj + 10 || x1 > maxx - adj - 10) continue;
-		if(x2 < adj + 10 || x2 > maxx - adj - 10) continue;
-		if(y1 < 10 || y1 > maxy - 10) continue;
-		if(y2 < 10 || y2 > maxy - 10) continue;
+		if(x1 < adj + 10 && x1 > maxx - adj - 10) continue;
+		if(x2 < adj + 10 && x2 > maxx - adj - 10) continue;
+		if(y1 < 10 && y1 > maxy - 10) continue;
+		if(y2 < 10 && y2 > maxy - 10) continue;
 
 		c.drawLine({
 			strokeStyle: 'red',
