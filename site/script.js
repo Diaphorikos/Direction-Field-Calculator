@@ -256,11 +256,11 @@ $(document).ready(function(){
 
 	$('#points').val(20);
 	points = 20;
-	$('#points-text').text(points);
+	$('#points-text').text(points + ' points');
 
 	$('#window').val(5);
 	maxw = 5;
-	$('#window-text').text('From -' + maxw + ' to ' + maxw);
+	$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 	
 	$('#samples').val(200);
 	samples = 200;
@@ -268,12 +268,12 @@ $(document).ready(function(){
 
 	$('#points').change(function(){
 		points = $('#points').val() * 1;
-		$('#points-text').text(points);
+		$('#points-text').text(points + ' points');
 		getPolish();
 	});
 	$('#window').change(function(){
 		maxw = $('#window').val() * 1;
-		$('#window-text').text('From -' + maxw + ' to ' + maxw);
+		$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 		getPolish();
 	});
 	$('#samples').change(function(){
@@ -291,7 +291,7 @@ $(document).ready(function(){
 		if(maxw > 20) maxw = 20;
 		$('#window').val(maxw);
 
-		$('#window-text').text('From -' + maxw + ' to ' + maxw);
+		$('#window-text').text('From x = -' + maxw + ' to x = ' + maxw);
 		getPolish();
 	});
 });
