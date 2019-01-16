@@ -29,6 +29,16 @@ vector<string> f(istream_iterator<string>{iss}, istream_iterator<string>());
 
 //f.pop_back();
 
+//slaughtering constants
+for (int i = 0 ; i < f.size() ; ++i){
+try{
+stod(f[i]);
+f.insert(f.begin()+i+1, "1");
+f.insert(f.begin()+i+2, "/");
+i += 2;
+}catch(const invalid_argument& e){}
+}
+
 //loop for arithmetic
 for (int i = 0 ; i + 1 < f.size() ; ++i){
 //cout << f.size() << ' ' << i << endl;
