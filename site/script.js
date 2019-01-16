@@ -1,8 +1,8 @@
-var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn;
+var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn, samples2;
 
 function drawSlope(length, slope, xc, yc){
 	c.drawLine({
-		strokeStyle: 'black',
+		strokeStyle: 'grey',
 		strokeWidth: 1.2,
 		x1: -length/(2 * Math.sqrt(slope * slope + 1)) + xc,
 		x2: length/(2 * Math.sqrt(slope * slope + 1)) + xc,
@@ -125,14 +125,14 @@ function render(){
 
 	var adj = (maxx - maxy)/2;
 
-	for(var i = 0; i < samples - 1; i++){
+	for(var i = 0; i < samples2 - 1; i++){
 		var x1 = curve[i][0] * 1;
 		var y1 = curve[i][1] * 1;
 		var x2 = curve[i + 1][0] * 1;
 		var y2 = curve[i + 1][1] * 1;
 
 		c.drawLine({
-			strokeStyle: 'grey',
+			strokeStyle: 'red',
 			strokeWidth: 2,
 			x1: (x1 + 1) / 2 * maxy + adj,
 			y1: maxy - ((y1 + 1) / 2 * maxy),
@@ -186,27 +186,44 @@ function getPolish(){
 		},
 		getSlopes
 	);
+
+	window.setTimeout(function(){
+		getCurve($('#pointx').val(), $('#pointy').val(), true);
+	}, 100);
 }
 
 function doCurve(data){
 	var raw = data.split('\n');
+
 	curve = [];
 
-	for(var i = 0; i < samples; i++){
+	samples2 = raw.length
+
+	for(var i = 0; i < samples2; i++){
 		var temp = raw[i].split(' ');
 		curve.push(temp);
 	}
 	render();
 }
 
-function getCurve(x, y){
+function getCurve(x, y, r){
 	if(!eqn) return;
 	var adj = (maxx - maxy) / 2;
 
-	x -= adj;
-	if(x < 0 || x > maxy) return;
-	x = (x / maxy * 2 - 1) * maxw;
-	y = ((maxy - y) / maxy * 2 - 1) * maxw;
+	console.log(x, y);
+	if(!r){
+		x -= adj;
+		if(x < 0 || x > maxy) return;
+		x = (x / maxy * 2 - 1) * maxw;
+		y = ((maxy - y) / maxy * 2 - 1) * maxw;
+	}
+	else{
+		x *= 1;
+		y *= 1;
+	}
+
+	$('#pointx').val('' + x*1);
+	$('#pointy').val('' + y*1);
 
 	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + samples + '\n200';
 	$.get("request.php",
@@ -242,10 +259,11 @@ $(document).ready(function(){
 
 	c = $('#canvas');
 
-	$('#canvas').mousemove(function(e){
-		getCurve(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top);
+	$('#canvas').click(function(e){
+		getCurve(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, false);
 	});
 
+	/*
 	$(document).dblclick(function(){
 		var ele = $('div');
 		for(var i = 0; i < ele.length; i++){
@@ -253,10 +271,11 @@ $(document).ready(function(){
 			$(ele[i]).css('border', '1px solid black');
 		}
 	});
+	*/
 
 	$('#points').val(20);
 	points = 20;
-	$('#points-text').text(points);
+	$('#points-text').text(points + ' by ' + points);
 
 	$('#window').val(5);
 	maxw = 5;
@@ -268,7 +287,7 @@ $(document).ready(function(){
 
 	$('#points').change(function(){
 		points = $('#points').val() * 1;
-		$('#points-text').text(points);
+		$('#points-text').text(points + ' by ' + points);
 		getPolish();
 	});
 	$('#window').change(function(){
@@ -282,16 +301,20 @@ $(document).ready(function(){
 		getPolish();
 	});
 
-	var iter = 0;
+	/*
+	$('#pointx, #pointy').keydown(function(e){
+	});
+	*/
 	$(window).on('wheel', function(e){
 		var x = e.originalEvent.wheelDelta;
 
 		maxw += Math.floor(x / 100);
-		if(maxw < 1) maxw = 1;
+		if(maxw < 2) maxw = 2;
 		if(maxw > 20) maxw = 20;
 		$('#window').val(maxw);
 
 		$('#window-text').text('From -' + maxw + ' to ' + maxw);
 		getPolish();
 	});
+	getPolish();
 });

@@ -53,17 +53,26 @@
 
 						<div>
 							<p-invert>Window Size: <div id="window-text"></div></p-invert>
-							<input id="window" type="range" min="1" max="20" step="1" value="1">
+							<input id="window" type="range" min="2" max="20" step="1" value="1">
 						</div>
 
 						<div>
 							<p-invert>Precision: <div id="samples-text"></div></p-invert>
 							<input id="samples" type="range" min="10" max="1000" step="1" value="50">
 						</div>
+
+						<div>
+							<p-invert>Specific Solution:</p-invert>
+							<div>
+								x = <input id="pointx" type="text" size="4" class="roundInput" value="0">
+								y = <input id="pointy" type="text" size="4" class="roundInput" value="0">
+							</div>
+						</div>
 					</div>
+					<br/>
 					<div type="row">
 						<span id="prompt">\dfrac{dy}{dx} =</span>
-						<div id="input" type="text"></div>
+						<div id="input" type="text">x</div>
 
 						<!-- NOTE: MATHQUILL INPUT CANNOT BE AN <INPUT>
 								MUST BE A <DIV>
