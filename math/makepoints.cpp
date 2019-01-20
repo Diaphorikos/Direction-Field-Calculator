@@ -294,12 +294,12 @@ int denom = args[1]*args[3];
 int dv = gcd(num, denom);
 num /= dv;
 denom /= dv;
-ostringstream cancer;
-cancer << num;
-f.insert(f.begin()+i+7, cancer.str());
-ostringstream aids;
-aids << denom;
-f.insert(f.begin()+i+8, aids.str());
+ostringstream var2;
+var2 << num;
+f.insert(f.begin()+i+7, var2.str());
+ostringstream var1;
+var1 << denom;
+f.insert(f.begin()+i+8, var1.str());
 f.insert(f.begin()+i+9, "/");
 for (int x = 0 ; x < 7 ; ++x){
 f.erase(f.begin()+i);
@@ -312,12 +312,12 @@ int denom = args[1]*args[3];
 int dv = gcd(num, denom);
 num /= dv;
 denom /= dv;
-ostringstream cancer;
-cancer << num;
-f.insert(f.begin()+i+7, cancer.str());
-ostringstream aids;
-aids << denom;
-f.insert(f.begin()+i+8, aids.str());
+ostringstream var2;
+var2 << num;
+f.insert(f.begin()+i+7, var2.str());
+ostringstream var1;
+var1 << denom;
+f.insert(f.begin()+i+8, var1.str());
 f.insert(f.begin()+i+9, "/");
 for (int x = 0 ; x < 7 ; ++x){
 f.erase(f.begin()+i);
@@ -330,12 +330,12 @@ int denom = args[1]*args[3];
 int dv = gcd(num, denom);
 num /= dv;
 denom /= dv;
-ostringstream cancer;
-cancer << num;
-f.insert(f.begin()+i+7, cancer.str());
-ostringstream aids;
-aids << denom;
-f.insert(f.begin()+i+8, aids.str());
+ostringstream var2;
+var2 << num;
+f.insert(f.begin()+i+7, var2.str());
+ostringstream var1;
+var1 << denom;
+f.insert(f.begin()+i+8, var1.str());
 f.insert(f.begin()+i+9, "/");
 for (int x = 0 ; x < 7 ; ++x){
 f.erase(f.begin()+i);
@@ -348,12 +348,12 @@ int denom = args[1]*args[2];
 int dv = gcd(num, denom);
 num /= dv;
 denom /= dv;
-ostringstream cancer;
-cancer << num;
-f.insert(f.begin()+i+7, cancer.str());
-ostringstream aids;
-aids << denom;
-f.insert(f.begin()+i+8, aids.str());
+ostringstream var2;
+var2 << num;
+f.insert(f.begin()+i+7, var2.str());
+ostringstream var1;
+var1 << denom;
+f.insert(f.begin()+i+8, var1.str());
 f.insert(f.begin()+i+9, "/");
 for (int x = 0 ; x < 7 ; ++x){
 f.erase(f.begin()+i);
@@ -737,7 +737,7 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	}
 
 	//This is just a flag variable
-	int cancer = 0;
+	int var2 = 0;
 
 	flag:
 	//Left-to-Right (x increasing)
@@ -757,12 +757,12 @@ vector<pair<double, double>> getcurve(string rpn, double xmin, double xmax, doub
 	}
 	
 	//Right-to-Left (x decreasing)
-	if (!cancer)
+	if (!var2)
 	for (int i = 0; i < samples / 2; ++i) {
 		//uses slope of previous generated point
 		slope = f(rpn, points.front().first, points.front().second);
 		//if it must stop because of a nan, it returns to the first loop to compensate
-		if (isnan(slope)){cancer = 1; samples -= i*2 ; goto flag;}
+		if (isnan(slope)){var2 = 1; samples -= i*2 ; goto flag;}
 		if (isinf(slope)) {
 			int coeff = slope > 0 ? 1 : -1;
 			points.push_back(make_pair(points.front().first, points.front().second + del  * coeff / (ymax - ymin)));
