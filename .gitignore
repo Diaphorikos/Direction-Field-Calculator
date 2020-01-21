@@ -1,2 +1,3 @@
 .*.swp
-buffer.*
+site/buffer.in
+site/buffer.out
