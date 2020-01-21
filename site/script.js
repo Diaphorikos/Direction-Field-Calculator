@@ -1,4 +1,5 @@
 var inputField, c, maxx, maxy, maxw, points, samples, slopes, curve, eqn, samples2, slength;
+var specificX, specificY;
 
 function drawSlope(length, slope, xc, yc){
 	c.drawLine({
@@ -150,6 +151,14 @@ function render(){
 			y2: y2
 		});
 	}
+
+	c.drawEllipse({
+		fillStyle: 'black',
+		x: maxx/2 + specificX * maxy/maxw/2,
+		y: maxy/2 - specificY * maxy/maxw/2,
+		width: 10,
+		height: 10
+	});
 }
 
 function doSlope(data){
@@ -161,7 +170,7 @@ function doSlope(data){
 			temp.push(raw[i * points + j]);
 		slopes.push(temp);
 	}
-	console.log(slopes);
+	//console.log(slopes);
 	render();
 }
 
@@ -169,7 +178,7 @@ function getSlopes(data){
 	if(!points || !maxw) return;
 
 	eqn = data;
-	console.log(data);
+	//console.log(data);
 
 	var s = '0\n';
 	s += data + '\n';
@@ -187,7 +196,7 @@ function getSlopes(data){
 function getPolish(){
 	var s = inputField.latex();
 	s = s.split('\\ ').join('');
-	console.log(s);
+	//console.log(s);
 	
 	$.get("request.php",
 		{
@@ -207,7 +216,7 @@ function doCurve(data){
 
 	curve = [];
 
-	samples2 = raw.length
+	samples2 = raw.length;
 
 	for(var i = 0; i < samples2; i++){
 		var temp = raw[i].split(' ');
@@ -220,7 +229,7 @@ function getCurve(x, y, r){
 	if(!eqn) return;
 	var adj = (maxx - maxy) / 2;
 
-	console.log(x, y);
+	//console.log(x, y);
 	if(!r){
 		x -= adj;
 		if(x < 0 || x > maxy) return;
@@ -232,10 +241,13 @@ function getCurve(x, y, r){
 		y *= 1;
 	}
 
-	$('#pointx').val('' + x*1);
-	$('#pointy').val('' + y*1);
+	$('#pointx').val((x*1).toFixed(3));
+	$('#pointy').val((y*1).toFixed(3));
 
-	console.log(slength);
+	specificX = x * 1;
+	specificY = y * 1;
+
+	//console.log(slength);
 	var s = '1\n' + eqn + '\n-' + maxw + '\n' + maxw + '\n-' + maxw + '\n' + maxw + '\n' + x + '\n' + y + '\n' + (samples * slength) + '\n' + slength;
 	$.get("request.php",
 		{

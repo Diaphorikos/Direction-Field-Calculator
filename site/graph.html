@@ -45,6 +45,23 @@
 
 			<div id="container-fluid">
 				<div id="sidebar" class="panel panel-default">
+					<div type="row">
+						<span id="prompt">\dfrac{dy}{dx} =</span>
+						<div id="input" type="text">x \cdot (y-1)</div>
+
+						<!-- NOTE: MATHQUILL INPUT CANNOT BE AN <INPUT>
+								MUST BE A <DIV>
+						-->
+						<button id="submit" class="btn btn-default" type="button">Go!</button>
+						<div>
+							<p-invert>Specific Solution:</p-invert>
+							<div>
+								x = <input id="pointx" type="text" size="4" class="roundInput" value="1.315">
+								y = <input id="pointy" type="text" size="4" class="roundInput" value="1.527">
+							</div>
+							<p-invert>You may also click on the display for a specific solution.</p-invert>
+						</div>
+					</div>
 					<div id="sliders">
 						<div>
 							<p-invert>Points: <span id="points-text"></span></p-invert>
@@ -66,24 +83,8 @@
 							<input id="samples" type="range" min="1" max="100" step="1" value="50">
 						</div>
 
-						<div>
-							<p-invert>Specific Solution:</p-invert>
-							<div>
-								x = <input id="pointx" type="text" size="4" class="roundInput" value="0">
-								y = <input id="pointy" type="text" size="4" class="roundInput" value="0">
-							</div>
-						</div>
 					</div>
 					<br/>
-					<div type="row">
-						<span id="prompt">\dfrac{dy}{dx} =</span>
-						<div id="input" type="text">x</div>
-
-						<!-- NOTE: MATHQUILL INPUT CANNOT BE AN <INPUT>
-								MUST BE A <DIV>
-						-->
-						<button id="submit" class="btn btn-default" type="button">Go!</button>
-					</div>
 				</div>
 				<div id="graph">
 					<canvas id="canvas"></canvas>
