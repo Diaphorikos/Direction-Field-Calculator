@@ -1,3 +1,4 @@
 .*.swp
 site/buffer.in
 site/buffer.out
+site/err.log
